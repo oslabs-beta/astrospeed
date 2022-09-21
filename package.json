@@ -1,0 +1,11 @@
+{
+  "name": "astrospeed",
+  "version": "0.0.1",
+  "description": "Astrospeed is a performance monitor for your AstroJS codebase",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
