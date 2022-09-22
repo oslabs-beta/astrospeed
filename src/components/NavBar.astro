@@ -2,13 +2,16 @@
 // Component Imports
 import Button from './Button.astro';
 ---
-<div class="flex bg-stone-900 h-14 sticky top-0 items-center">
-  <div class="flex absolute space-x-3 left-3 items-center">
-    <img src="./white-logo.png" class="relative h-14 w-14">
+<!-- <div class="flex bg-stone-900 h-14 sticky top-0 items-center"> -->
+<div class="flex flex-wrap justify-between bg-stone-900 min-h-14 space-x-3 sticky top-0 items-center">
+  <!-- <div class="flex absolute space-x-3 left-3 items-center"> -->
+  <div class="flex flex-none space-x-3 items-center">
+    <img src="./white-logo.png" class="h-14 w-14">
     <Button color='bg-stone-100'>GET STARTED</Button>
     <Button color='bg-stone-100'>WATCH DEMO</Button>
   </div>
-  <div class="absolute space-x-3 right-3">
+  <!-- <div class="absolute space-x-3 right-3"> -->
+  <div class="flex space-x-3">
     <Button color='bg-stone-100'>GITHUB</Button>
     <Button color='bg-yellow-200'>LOGIN</Button>
   </div>
