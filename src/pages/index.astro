@@ -1,7 +1,7 @@
 ---
 // Component Imports
-import Button from '../components/Button.astro';
 import NavBar from '../components/NavBar.astro';
+import SplashPoster from '../components/SplashPoster.astro';
 
 // Full Astro Component Syntax:
 // https://docs.astro.build/core-concepts/astro-components/
@@ -12,16 +12,17 @@ import NavBar from '../components/NavBar.astro';
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link
+		<!-- <link
 		href="https://fonts.googleapis.com/css2?family=Poppins:ital@0;1&display=swap"
 		rel="stylesheet"
-	/>
+	/> -->
 		<meta name="generator" content={Astro.generator} />
 		<title>AstroSpeed</title>
 	</head>
 
 	<body>
 		<NavBar />
+		<SplashPoster />
 		<div class="h-screen bg-stone-400">Hello</div>
 		<div class="h-screen bg-stone-400">World</div>
 	</body>
