@@ -4,46 +4,27 @@ const chromeLauncher = require('chrome-launcher');
 const puppeteer = require('puppeteer');
 const express = require('express');
 const path = require('path');
-
-const app = express();
-
 const fs = require('fs');
+const { exec, execSync } = require("child_process");
 
-const { exec } = require("child_process");
 
-const buildAstroAppCmd = 'npm run build';
-console.log(path.resolve('/dist/'))
-
-app.use('*', express.static('dist'));
-const server = app.listen(3500, () => console.log(`Server listening on port: 3500`));
 
 //this builds the astro app to the 'dist' folder
-exec(buildAstroAppCmd, (err, stdout, stderr) => {
-  if (err) console.log('error', err.message);
-  if (stderr) console.log('error', stderr);
-  console.log(stdout);
-})
+function buildAstroApp() {
+  const buildAstroAppCmd = 'npm run build';
+  execSync(buildAstroAppCmd)
+  console.log('done building')
+}
 
-//run lighthouse report on localhost:3000
-const launchChromeAndRunLighthouse = url => {
-  return chromeLauncher.launch({chromeFlags:['--headless']}).then(chrome => {
-    const opts = {
-      port: chrome.port
-    };
-    return lighthouse(url, opts).then(results => {
-      return chrome.kill().then(() => results.report);
-    });
-  });
-};
+//serve the astro app
+let server;
+async function serveAstroApp() {
+  const app = express();
+  app.use('*', express.static('dist'));
+  server = app.listen(3500, () => console.log(`Server listening on port 3500`));
+}
 
-
-// launchChromeAndRunLighthouse("https://www.codesmith.io").then(results => {
-//   console.log(results);
-//   const data = JSON.stringify(results);
-//   fs.writeFileSync('lighthouse.json', data);
-// });
 async function getLighthouseResultsPuppeteer(url, gitMessage) {
-  
   const chrome = await puppeteer.launch({args: ['--remote-debugging-port=9222'],});
   const options = {
     logLevel: 'silent', 
@@ -57,14 +38,24 @@ async function getLighthouseResultsPuppeteer(url, gitMessage) {
 }
 
 async function getReport() {
+  console.log('running lighthouse report')
   const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/index.html`);
-  await console.log(lhr);
+  console.log('lighthouse report complete');
   //save the lighthouse report to JSON
   const data = JSON.stringify(lhr);
-  fs.writeFileSync('lighthouse.json', data);
+  fs.writeFileSync('node_modules/astrospeed/lighthouse.json', data);
+  server.close();
+  console.log('closed express server')
 
+  const buildReport = 'npm run buildreport --prefix node_modules/astrospeed/'
+  await exec(buildReport, (err, stdout, stderr) => {
+    if (err) console.log('error', err.message);
+    if (stderr) console.log('error', stderr);
+    console.log('built report html');
+  })
 }
+
+buildAstroApp();
+serveAstroApp();
 getReport();
 
-
-//append to the React app HTML
