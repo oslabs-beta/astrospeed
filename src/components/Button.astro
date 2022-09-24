@@ -1,20 +1,22 @@
 ---
-// Click button, get confetti!
 // Styled by Tailwind :)
 const {color} = Astro.props;
-const darkerColor = color.slice(0,-3) + (Number(color.slice(-3)) + 200);
-// const darkerColor = 'bg-yellow-400'
-// console.log(darkerColor)
-const tailClass = `w-32 h-10 py-2 px-2 bg-${color} hover:bg-${darkerColor} text-stone-900 font-semibold rounded-lg`;
+// const darkerColor = color.slice(0,-3) + (Number(color.slice(-3)) + 200);
+let tailClass;
+if (color === 'stone') tailClass = `bg-stone-100 hover:bg-stone-300 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 w-32 h-10 py-2 px-2 text-stone-900 font-semibold rounded-lg`;
+if (color === 'yellow') tailClass = `bg-yellow-200 hover:bg-yellow-400 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 w-32 h-10 py-2 px-2 text-stone-900 font-semibold rounded-lg`;
 ---
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+/* body {
+} */
 
-<button
-	class={tailClass}
->
+button {
+	font-family: 'Poppins', sans-serif;
+}
+</style>
+
+<button	class={tailClass}>
 	<slot />
 </button>
 
-<!-- <script>
-	import confetti from 'canvas-confetti';
-	document.body.querySelector('button').addEventListener('click', () => confetti());
-</script> -->

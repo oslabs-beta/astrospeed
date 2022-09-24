@@ -1,8 +1,77 @@
 ---
 //Component Script Block
 
+
 ---
 <!-- Component Template (HTML + JS Expressions) -->
-<div class='h-[75vh] bg-[url("space-bg.png")] ;'>
-  <img class="block m-auto" src="./colored-logo.png" >
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+  #space-bg{
+    height: 75vh;
+    background-image: url("space-bg.png");
+    position:relative;
+    }
+  img {
+    display:block;
+    margin: auto;
+    }
+  p {
+    font-family: 'Poppins', sans-serif;
+    }
+  .bottom {
+    display: inline-block;
+    text-align: center;
+    width: 4em;
+    height: 4em;
+    border: 0.5em solid #f5f5f4;
+    border-radius: 50%;
+    margin-left: 0.75em;
+    position:absolute;
+    bottom:-2em;
+    left: calc(50% - 2em);
+  }
+
+  .bottom:after {
+    content: '';
+    display: inline-block;
+    margin-top: 0.6em;
+    width: 1.4em;
+    height: 1.4em;
+    border-top: 0.5em solid #f5f5f4;
+    border-right: 0.5em solid #f5f5f4;
+    -moz-transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    transform: rotate(135deg);
+  }
+  #space-footer {
+    min-height:calc(25vh - 3.5rem);
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 4rem;
+  }
+  #underlined:after {
+    content: "";
+    position: absolute;
+    bottom: 2rem;
+    left: calc(50% - 75px);
+    height: 30px;
+    width: 200px;
+    border: solid 4px #f5f5f4;
+    border-color: #f5f5f4 transparent transparent transparent;
+    border-radius: 50%;
+}
+</style>
+
+
+<div id="space-bg">
+  <img src="./colored-logo.png" >
+  <p class= "text-stone-100 text-6xl md:text-9xl text-center relative top-[10%]">astroSpeed</p>
+  <p class= "text-stone-100 text-xl text-center relative top-[12%]">astro projects deserve performance metrics, on-demand</p>
+  <span class="bottom"></span>
+</div>
+<div id="space-footer">
+  <p class= "text-stone-100 text-3xl text-center">your astro project is <span class="text-yellow-200">lightning fast,</span> but...</p>
+  <p class= "text-stone-100 text-3xl text-center">is it <span id="underlined" class="italic">optimized?</span></p>
 </div>
