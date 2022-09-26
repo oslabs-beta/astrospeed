@@ -3,5 +3,3 @@ node_modules
 package-lock.json
 dist
 astrospeed
-.DS_Store
-package-lock.json
