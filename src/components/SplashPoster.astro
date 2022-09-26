@@ -5,7 +5,7 @@
 ---
 <!-- Component Template (HTML + JS Expressions) -->
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+  /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap'); */
   #space-bg{
     height: 75vh;
     background-image: url("space-bg.png");
@@ -15,9 +15,9 @@
     display:block;
     margin: auto;
     }
-  p {
+  /* p {
     font-family: 'Poppins', sans-serif;
-    }
+    } */
   .bottom {
     display: inline-block;
     text-align: center;
@@ -52,34 +52,35 @@
     padding-bottom: 4rem;
   }
 
-  #underlined::after {
+  #underlined::before {
     content: "";
     position: absolute;
-    bottom: 2rem;
+    bottom: 3rem;
     left: calc(50% - 75px);
-    height: 30px;
+    height: 15px;
     width: 200px;
     border: solid 4px #f5f5f4;
     border-color: #f5f5f4 transparent transparent transparent;
     border-radius: 50%;
   }
 
-  #underlined::before {
+  #underlined::after {
     content: "";
     position: absolute;
-    bottom: 2rem;
+    bottom: 3rem;
     left: calc(50% - 75px);
-    height: 30px;
+    height: 15px;
     width: 200px;
     background-color: black;
     animation: move 10s infinite;
-    z-index: 10;
+    /* z-index: 1; */
   }
 
   @keyframes move {
     20%, 100% {
       opacity: 0;
-      transform: translate(220px, 0);
+      transform: translate(210px, 0);
+      width:0px;
     }
     0% {
       opacity: 0;
@@ -89,7 +90,7 @@
     }
   }
 
-  @media only screen and (max-height: 800px){
+  @media only screen and (max-height: 800px), (max-width: 600px){
     #space-bg {
       height: 50vh;
     }

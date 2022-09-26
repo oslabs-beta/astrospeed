@@ -8,24 +8,27 @@ import Comparisons from '../components/Comparisons.astro';
 // https://docs.astro.build/core-concepts/astro-components/
 ---
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+	body {
+		font-family: 'Poppins', sans-serif;
+	}
+</style>
+
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<!-- <link
-		href="https://fonts.googleapis.com/css2?family=Poppins:ital@0;1&display=swap"
-		rel="stylesheet"
-	/> -->
 		<meta name="generator" content={Astro.generator} />
-		<title>AstroSpeed</title>
+		<title>astroSpeed</title>
 	</head>
 
-	<body>
+	<body class="bg-stone-100 break-words">
 		<NavBar />
 		<SplashPoster />
 		<Comparisons />
-		<div class="h-screen bg-stone-400">Hello</div>
+		<div class="h-screen bg-white">Hello</div>
 		<div class="h-screen bg-stone-400">World</div>
 	</body>
 </html>
