@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import lhr from '../lighthouse.json'
-import Chart from './Chart.jsx'
+import LineChart from "./LineChart.jsx";
 
 interface Props {
    name:
@@ -18,7 +18,7 @@ class App extends React.Component<Props> {
         </h1>
         Report generated at: {lhr[lhr.length-1].fetchTime} <br />
         Performance: {lhr[lhr.length-1].categories.performance.score}
-        <Chart />
+        <LineChart />
       </>
     );
   }

@@ -1,96 +1,22 @@
-export const barChartData = [
-  {
-    name: "Sales",
-    data: [330, 250, 110, 300, 490, 350, 270, 130, 425],
-  },
-];
+// export const barChartData = [
 
-export const barChartOptions = {
-  chart: {
-    toolbar: {
-      show: false,
-    },
-  },
-  tooltip: {
-    style: {
-      backgroundColor: "red",
-      fontSize: "12px",
-      fontFamily: undefined,
-    },
-    onDatasetHover: {
-      style: {
-        backgroundColor: "red",
-        fontSize: "12px",
-        fontFamily: undefined,
-      },
-    },
-    theme: "dark",
-  },
-  xaxis: {
-    categories: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    show: false,
-    labels: {
-      show: false,
-      style: {
-        colors: "#fff",
-        fontSize: "12px",
-      },
-    },
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-  },
-  yaxis: {
-    show: true,
-    color: "#fff",
-    labels: {
-      show: true,
-      style: {
-        colors: "#fff",
-        fontSize: "14px",
-      },
-    },
-  },
-  grid: {
-    show: false,
-  },
-  fill: {
-    colors: "#fff",
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  plotOptions: {
-    bar: {
-      borderRadius: 8,
-      columnWidth: "12px",
-    },
-  },
-  responsive: [
-    {
-      breakpoint: 768,
-      options: {
-        plotOptions: {
-          bar: {
-            borderRadius: 0,
-          },
-        },
-      },
-    },
-  ],
-};
+import lhr from '../../lighthouse.json'
+
+const perfScores = [], seoScores = [], commitNum = [];
+for (let i = 0; i < lhr.length; i++) {
+  commitNum.push(i + 1);
+  perfScores.push(lhr[i].categories.performance.score * 100);
+  seoScores.push(lhr[i].categories.seo.score * 100);
+}
 
 export const lineChartData = [
   {
-    name: "Mobile apps",
-    data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+    name: "Performance Score",
+    data: perfScores,
   },
   {
-    name: "Websites",
-    data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+    name: "SEO Score",
+    data: seoScores,
   },
 ];
 
@@ -104,33 +30,21 @@ export const lineChartOptions = {
     theme: "dark",
   },
   dataLabels: {
-    enabled: false,
+    enabled: true,
   },
   stroke: {
-    curve: "smooth",
+    curve: "straight",
   },
   xaxis: {
-    type: "datetime",
-    categories: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
+    type: "numeric",
+    categories: commitNum,
     labels: {
       style: {
         colors: "#c8cfca",
         fontSize: "12px",
       },
     },
+    title: {text:"Commit #"},
   },
   yaxis: {
     labels: {
@@ -139,9 +53,10 @@ export const lineChartOptions = {
         fontSize: "12px",
       },
     },
+    max: 100,
   },
   legend: {
-    show: false,
+    show: true,
   },
   grid: {
     strokeDashArray: 5,
