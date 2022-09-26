@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lighthouse": "node index.js",
-    "buildreport": "astro build"
+    "buildreport": "astro build",
+    "start": "astro dev",
+    "preview": "astro preview"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +16,9 @@
     "lighthouse": "^9.6.7"
   },
   "dependencies": {
+    "astro": "^1.3.0",
+    "astro-single-file": "^1.1.0",
+    "html-minifier-terser": "^7.0.0",
     "puppeteer": "^18.0.4"
   }
 }
