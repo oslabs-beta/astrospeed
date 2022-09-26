@@ -2,7 +2,7 @@
 const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
 const puppeteer = require('puppeteer');
-// const express = require('express');
+const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { exec, execSync } = require("child_process");
@@ -25,12 +25,12 @@ async function serveAstroApp() {
 }
 
 async function getLighthouseResultsPuppeteer(url, gitMessage) {
-  const chrome = await puppeteer.launch({args: ['--remote-debugging-port=9222'],});
+  const chrome = await puppeteer.launch({args: ['--remote-debugging-port=9224'],});
   const options = {
     logLevel: 'silent', 
     output: 'html', 
     maxWaitForLoad: 10000, 
-    port: 9222
+    port: 9224
   };
   const runnerResult = await lighthouse(url, options);
   await chrome.close();
@@ -41,9 +41,17 @@ async function getReport() {
   console.log('running lighthouse report')
   const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/index.html`);
   console.log('lighthouse report complete');
-  //save the lighthouse report to JSON
-  const data = JSON.stringify(lhr);
-  fs.writeFileSync('node_modules/astrospeed/lighthouse.json', data);
+
+  // read prior JSON data
+  const data = readExistingData();
+    // push latest report into data array
+  data.push(lhr);
+
+  //save the lighthouse reports to JSON
+  const dataJSON = JSON.stringify(data);
+
+
+  fs.writeFileSync('node_modules/astrospeed/lighthouse.json', dataJSON);
   server.close();
   console.log('closed express server')
 
@@ -55,7 +63,18 @@ async function getReport() {
   })
 }
 
-// buildAstroApp();
-// serveAstroApp();
+buildAstroApp();
+serveAstroApp();
 getReport();
 
+function readExistingData () {
+  try {
+    //check if node_modules/astrospeed/lighthouse.json exists
+    const oldData = fs.readFileSync('node_modules/astrospeed/lighthouse.json');
+    //if it does, read it, parse it. (It should be an array of lighthouse json objects) 
+    return JSON.parse(oldData);
+  } catch (err){
+    // if it doesn't, return an empty array
+    return [];
+  }
+}

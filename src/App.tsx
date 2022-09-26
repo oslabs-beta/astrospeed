@@ -16,8 +16,8 @@ class App extends React.Component<Props> {
         <h1>
           Hello {name}
         </h1>
-        Report generated at: {lhr.fetchTime} <br />
-        Performance: {lhr.categories.performance.score}
+        Report generated at: {lhr[lhr.length-1].fetchTime} <br />
+        Performance: {lhr[lhr.length-1].categories.performance.score}
         <Chart />
       </>
     );
