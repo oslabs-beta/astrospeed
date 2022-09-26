@@ -41,9 +41,17 @@ async function getReport() {
   console.log('running lighthouse report')
   const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/index.html`);
   console.log('lighthouse report complete');
-  //save the lighthouse report to JSON
-  const data = JSON.stringify(lhr);
-  fs.writeFileSync('node_modules/astrospeed/lighthouse.json', data);
+
+  // read prior JSON data
+  const data = readExistingData();
+    // push latest report into data array
+  data.push(lhr);
+
+  //save the lighthouse reports to JSON
+  const dataJSON = JSON.stringify(data);
+
+
+  fs.writeFileSync('node_modules/astrospeed/lighthouse.json', dataJSON);
   server.close();
   console.log('closed express server')
 
@@ -59,3 +67,14 @@ async function getReport() {
 // serveAstroApp();
 getReport();
 
+function readExistingData () {
+  try {
+    //check if node_modules/astrospeed/lighthouse.json exists
+    const oldData = fs.readFileSync('./lighthouse.json');
+    //if it does, read it, parse it. (It should be an array of lighthouse json objects) 
+    return JSON.parse(oldData);
+  } catch (err){
+    // if it doesn't, return an empty array
+    return [];
+  }
+}
