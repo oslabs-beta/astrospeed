@@ -2,7 +2,7 @@
 const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
 const puppeteer = require('puppeteer');
-const express = require('express');
+// const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { exec, execSync } = require("child_process");
@@ -47,7 +47,7 @@ async function getReport() {
   server.close();
   console.log('closed express server')
 
-  const buildReport = 'npm run buildreport --prefix node_modules/astrospeed/'
+  const buildReport = 'npm run build-dev --prefix node_modules/astrospeed/'
   await exec(buildReport, (err, stdout, stderr) => {
     if (err) console.log('error', err.message);
     if (stderr) console.log('error', stderr);
@@ -55,7 +55,7 @@ async function getReport() {
   })
 }
 
-buildAstroApp();
-serveAstroApp();
+// buildAstroApp();
+// serveAstroApp();
 getReport();
 
