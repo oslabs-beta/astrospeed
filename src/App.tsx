@@ -1,10 +1,10 @@
 
 import * as React from 'react';
-import lhr from '../lighthouse.json'
+import lhr from '../lighthouse.json';
+import ListContainer from "../src/components/ListContainer/ListContainer.jsx" 
 
 interface Props {
-   name:
-    string
+   name: string
 }
 
 class App extends React.Component<Props> {
@@ -15,8 +15,9 @@ class App extends React.Component<Props> {
         <h1>
           Hello {name}
         </h1>
-        Report generated at: {lhr.fetchTime} <br />
-        Performance: {lhr.categories.performance.score}
+        Report generated at: {lhr[lhr.length - 1].fetchTime} <br />
+        Performance: {lhr[lhr.length - 1].categories.performance.score}
+      <ListContainer />
       </>
     );
   }
