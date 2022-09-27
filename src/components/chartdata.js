@@ -55,6 +55,7 @@ export const lineChartOptions = {
       },
     },
     max: 100,
+    // tickAmount: 5
   },
   legend: {
     show: true,
