@@ -11,7 +11,7 @@ interface Props {
 class App extends React.Component<Props> {
   render() {
     // const { name } = this.props;
-    const fetchTime = lhr[lhr.length-1].fetchTime;
+    const {fetchTime} = lhr[lhr.length-1];
     const reportDate = new Date(fetchTime.slice(0, -1));
     return (
       <>
