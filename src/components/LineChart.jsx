@@ -20,14 +20,20 @@ class LineChart extends React.Component {
   }
 
   render() {
+    const divStyle = {
+      height: '50vh',
+      minHeight: '400px',
+    }
     return (
-      <ReactApexChart
-        options={this.state.chartOptions}
-        series={this.state.chartData}
-        type="area"
-        width="100%"
-        height="100%"
-      />
+      <div style={divStyle}>
+        <ReactApexChart
+          options={this.state.chartOptions}
+          series={this.state.chartData}
+          type="area"
+          width="100%"
+          height="100%"
+        />
+      </div>
     );
   }
 }
