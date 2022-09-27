@@ -31,6 +31,7 @@ export const lineChartOptions = {
   },
   dataLabels: {
     enabled: true,
+    // style: {colors:  [ "#E4E684", "#3700A4"]}//['#FFFFFF', '#000000']}
   },
   stroke: {
     curve: "straight",
@@ -73,7 +74,7 @@ export const lineChartOptions = {
       opacityTo: 0,
       stops: [],
     },
-    colors: ["#4FD1C5", "#2D3748"],
+    colors: ["#3700A4", "#facc15"],
   },
-  colors: ["#4FD1C5", "#2D3748"],
+  colors: ["#3700A4", "#facc15"],
 };
