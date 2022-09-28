@@ -2,7 +2,7 @@
 const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
 const puppeteer = require('puppeteer');
-// const express = require('express');
+const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { exec, execSync } = require("child_process");
@@ -25,12 +25,12 @@ async function serveAstroApp() {
 }
 
 async function getLighthouseResultsPuppeteer(url, gitMessage) {
-  const chrome = await puppeteer.launch({args: ['--remote-debugging-port=9222'],});
+  const chrome = await puppeteer.launch({args: ['--remote-debugging-port=9224'],});
   const options = {
     logLevel: 'silent', 
     output: 'html', 
     maxWaitForLoad: 10000, 
-    port: 9222
+    port: 9224
   };
   const runnerResult = await lighthouse(url, options);
   await chrome.close();
@@ -63,8 +63,8 @@ async function getReport() {
   })
 }
 
-// buildAstroApp();
-// serveAstroApp();
+buildAstroApp();
+serveAstroApp();
 getReport();
 
 function readExistingData () {
