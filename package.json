@@ -11,7 +11,7 @@
     "start": "webpack-dev-server --mode development --open --hot"
   },
   "bin": {
-    "astroSnap": "./server.js"
+    "astrospeedsnap": "./server.js"
   },
   "author": "",
   "license": "ISC",

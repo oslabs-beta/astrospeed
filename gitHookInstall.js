@@ -15,11 +15,11 @@ function installHooks() {
     ensureDirExists(hooksDir); //Add hooks folder if it doesn't exist
     const hookFile = resolve(hooksDir, hook);
     if (fs.existsSync(hookFile)) {
-      if (hookFile.toString().match(/npx astroSpeedSnap/)) {
+      if (hookFile.toString().match(/npx astrospeedsnap/)) {
         console.warn("Correct git hook already in place");
       } else {
         console.warn(
-          "Post-commit git hook already exists.\nPlease add `npx astroSpeedSnap` to your existing post-commit hook to enable astroSpeed."
+          "Post-commit git hook already exists.\nPlease add `npx astrospeedsnap` to your existing post-commit hook to enable astroSpeed."
         );
       }
       return;
@@ -28,7 +28,7 @@ function installHooks() {
     fs.writeFileSync(
       hookFile,
       `#!/bin/sh
-    npx astroSpeedSnap 1> /dev/null 2> /dev/null`
+    npx astrospeedsnap 1> /dev/null 2> /dev/null`
     // original vantage hook
     // npx snapshot >&- 2>&- &`
     ); //create hook file
