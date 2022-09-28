@@ -29,7 +29,6 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.3.4",
     "puppeteer": "^18.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
