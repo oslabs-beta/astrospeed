@@ -37,10 +37,36 @@ async function getLighthouseResultsPuppeteer(url) {
   return runnerResult.lhr;
 }
 
-async function getCommitDetails() {
+function getCommitDetails() {
   console.log('getting latest git commit details')
-  //git log -1 --pretty="%b,%at,%h"  
-  
+  /*
+git log -1 --pretty="%B%at%n%h"
+  add function to get commit data
+  1664395260
+  62b0165
+  */
+  let commitMsg = execSync('git log -1 --pretty="%B%at%n%h"').toString().replace(/\n/g,',').split(',').slice(0,3);
+  let commitProperties = ['msg', 'time', 'hash']
+  let newCommitData = {};
+  for (let i = 0; i < 3; i++) {
+    newCommitData[commitProperties[i]] = commitMsg[i];
+  }
+  let data = readExistingData('git_commits');
+  data.push(commitMsg)
+  const dataJson = JSON.stringify(data)
+  fs.writeFileSync('node_modules/astrospeed/git_commits.json', dataJson);
+
+  /* git.json
+  [
+    {
+      msg: 'add X'
+      time: 123
+      hash: ab12
+    }
+
+  ]
+  */
+
 }
 
 async function getReport() {
@@ -49,7 +75,7 @@ async function getReport() {
   console.log('lighthouse report complete');
 
   // read prior JSON data
-  const data = readExistingData();
+  const data = readExistingData('lighthouse');
     // push latest report into data array
   data.push(lhr);
 
@@ -61,6 +87,7 @@ async function getReport() {
   server.close();
   console.log('closed express server')
 
+  getCommitDetails()
   const buildReport = 'npm run build-dev --prefix node_modules/astrospeed/'
   await exec(buildReport, (err, stdout, stderr) => {
     if (err) console.log('error', err.message);
@@ -73,11 +100,11 @@ buildAstroApp();
 serveAstroApp();
 getReport();
 
-function readExistingData () {
+function readExistingData (file) {
   try {
     //check if node_modules/astrospeed/lighthouse.json exists
     // const oldData = fs.readFileSync('./lighthouse.json');
-    const oldData = fs.readFileSync('node_modules/astrospeed/lighthouse.json');
+    const oldData = fs.readFileSync(`node_modules/astrospeed/${file}.json`);
     //if it does, read it, parse it. (It should be an array of lighthouse json objects) 
     return JSON.parse(oldData);
   } catch (err){

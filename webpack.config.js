@@ -15,7 +15,9 @@ const config = {
       {
         test: /\.(js|jsx)$/,
         use: "babel-loader",
-        exclude: /node_modules/,
+        exclude: [
+          /node_modules\/(?!astrospeed).*/
+        ]
       },
       {
         test: /\.css$/,
@@ -24,7 +26,9 @@ const config = {
       {
         test: /\.ts(x)?$/,
         loader: "ts-loader",
-        // exclude: /node_modules/
+        exclude: [
+          /node_modules\/(?!astrospeed).*/
+        ]
       },
     ],
   },
