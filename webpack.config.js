@@ -6,8 +6,8 @@ const config = {
   entry: "./src/index.tsx",
   output: {
     // path: path.resolve(__dirname, 'dist'),
-    path: path.resolve(__dirname, "./astrospeed"),
-    filename: "bundle.js",
+    path: path.resolve(__dirname, './astrospeed'), //or ../../astrospeed in PROD mode
+    filename: 'bundle.js'
   },
   module: {
     rules: [
