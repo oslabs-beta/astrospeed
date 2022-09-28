@@ -70,7 +70,7 @@ getReport();
 function readExistingData () {
   try {
     //check if node_modules/astrospeed/lighthouse.json exists
-    const oldData = fs.readFileSync('node_modules/astrospeed/lighthouse.json');
+    const oldData = fs.readFileSync('./lighthouse.json');
     //if it does, read it, parse it. (It should be an array of lighthouse json objects) 
     return JSON.parse(oldData);
   } catch (err){
