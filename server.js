@@ -24,7 +24,7 @@ async function serveAstroApp() {
   server = app.listen(3500, () => console.log(`Server listening on port 3500`));
 }
 
-async function getLighthouseResultsPuppeteer(url, gitMessage) {
+async function getLighthouseResultsPuppeteer(url) {
   const chrome = await puppeteer.launch({args: ['--remote-debugging-port=9224'],});
   const options = {
     logLevel: 'silent', 
@@ -35,6 +35,12 @@ async function getLighthouseResultsPuppeteer(url, gitMessage) {
   const runnerResult = await lighthouse(url, options);
   await chrome.close();
   return runnerResult.lhr;
+}
+
+async function getCommitDetails() {
+  console.log('getting latest git commit details')
+  //git log -1 --pretty="%b,%at,%h"  
+  
 }
 
 async function getReport() {
@@ -70,7 +76,8 @@ getReport();
 function readExistingData () {
   try {
     //check if node_modules/astrospeed/lighthouse.json exists
-    const oldData = fs.readFileSync('./lighthouse.json');
+    // const oldData = fs.readFileSync('./lighthouse.json');
+    const oldData = fs.readFileSync('node_modules/astrospeed/lighthouse.json');
     //if it does, read it, parse it. (It should be an array of lighthouse json objects) 
     return JSON.parse(oldData);
   } catch (err){
