@@ -45,7 +45,7 @@ git log -1 --pretty="%B%at%n%h"
   1664395260
   62b0165
   */
-  let commitMsg = execSync('git log -1 --pretty="%B%at%n%h"').toString().replace(/\n/g,',').split(',').slice(0,3);
+  let commitMsg = execSync('git log -1 --pretty="%B%ai%n%h"').toString().replace(/\n/g,',').split(',').slice(0,3);
   let commitProperties = ['msg', 'time', 'hash']
   let newCommitData = {};
   for (let i = 0; i < 3; i++) {
