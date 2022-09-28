@@ -28,9 +28,10 @@ function installHooks() {
     fs.writeFileSync(
       hookFile,
       `#!/bin/sh
-    npx astrospeedsnap 1> /dev/null 2> /dev/null`
-    // original vantage hook
-    // npx snapshot >&- 2>&- &`
+      npx astrospeedsnap 1> /dev/null`
+      //above line will hide standard output but show errors, for debugging
+    // npx astrospeedsnap 1> ./astroSpeed/run.log 2> ./astroSpeed/error.log`
+    // npx astrospeedsnap 1> /dev/null 2> /dev/null`
     ); //create hook file
     fs.chmodSync(hookFile, "755"); //make hook file executable
     console.log("astroSpeed git integration was successful!");
