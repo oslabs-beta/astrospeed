@@ -1,3 +1,5 @@
 node_modules
-astrospeed/bundle.js
-astrospeed/index.html
+astrospeed
+dist
+.DS_Store
+package-lock.json
