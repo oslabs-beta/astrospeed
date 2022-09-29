@@ -3,3 +3,5 @@ astrospeed
 dist
 .DS_Store
 package-lock.json
+
+astroSpeed/
