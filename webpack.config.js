@@ -30,6 +30,7 @@ const config = {
           /node_modules\/(?!astrospeed).*/
         ]
       },
+      { test: /\.svg$/, use: ["@svgr/webpack", "url-loader"] },
     ],
   },
   plugins: [
