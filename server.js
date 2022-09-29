@@ -26,7 +26,7 @@ let server;
 async function serveAstroApp() {
   const app = express();
   app.use('*', express.static('dist'));
-  server = app.listen(3500, () => console.log(`Server listening on port 3500`));
+  server = app.listen(3500);
 }
 
 async function getLighthouseResultsPuppeteer(url) {
@@ -88,7 +88,7 @@ async function getReport() {
   await exec(buildReport, (err, stdout, stderr) => {
     if (err) console.log('error', err.message);
     if (stderr) console.log('error', stderr);
-    console.log('Astrospeed report written to', path.resolve(__dirname, 'astrospeed/index.html'));
+    console.log('Astrospeed report written to', path.resolve(__dirname, '../../astrospeed/index.html'));
   })
 }
 
