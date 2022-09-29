@@ -12,12 +12,13 @@ const { exec, execSync } = require("child_process");
 const DEV_MODE = false; //configurable to switch between running as a node_module in another project (false) or running as a standalone project (true)
 
 
+console.log('Astrospeed report in progress...')
 
 //this builds the astro app to the 'dist' folder
 function buildAstroApp() {
   const buildAstroAppCmd = 'npm run build';
   execSync(buildAstroAppCmd)
-  console.log('done building')
+  // console.log('done building')
 }
 
 //serve the astro app
@@ -42,7 +43,7 @@ async function getLighthouseResultsPuppeteer(url) {
 }
 
 function getCommitDetails() {
-  console.log('getting latest git commit details')
+  // console.log('getting latest git commit details')
   /*
 git log -1 --pretty="%B%at%n%h"
   add function to get commit data
@@ -65,9 +66,9 @@ git log -1 --pretty="%B%at%n%h"
 }
 
 async function getReport() {
-  console.log('running lighthouse report')
+  // console.log('running lighthouse report')
   const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/index.html`);
-  console.log('lighthouse report complete');
+  // console.log('lighthouse report complete');
 
   // read prior JSON data
   const data = readExistingData('lighthouse');
@@ -80,14 +81,14 @@ async function getReport() {
   const pathToLighthouseJSON = DEV_MODE ? `./lighthouse.json` : `node_modules/astrospeed/lighthouse.json`
   fs.writeFileSync(pathToLighthouseJSON, dataJSON);
   server.close();
-  console.log('closed express server')
+  // console.log('closed express server')
 
   getCommitDetails()
   const buildReport = 'npm run build-dev --prefix node_modules/astrospeed/'
   await exec(buildReport, (err, stdout, stderr) => {
     if (err) console.log('error', err.message);
     if (stderr) console.log('error', stderr);
-    console.log('built report html');
+    console.log('Astrospeed report written to', path.resolve(__dirname, 'astrospeed/index.html'));
   })
 }
 

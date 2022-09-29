@@ -28,7 +28,7 @@ function installHooks() {
     fs.writeFileSync(
       hookFile,
       `#!/bin/sh
-      npx astrospeedsnap 1> /dev/null`
+      npx astrospeedsnap`
       //above line will hide standard output but show errors, for debugging
     // npx astrospeedsnap 1> ./astroSpeed/run.log 2> ./astroSpeed/error.log`
     // npx astrospeedsnap 1> /dev/null 2> /dev/null`
