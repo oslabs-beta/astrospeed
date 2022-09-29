@@ -26,7 +26,7 @@ let server;
 async function serveAstroApp() {
   const app = express();
   app.use('*', express.static('dist'));
-  server = app.listen(3500);
+  server = app.listen(3500, () => getReport());
 }
 
 async function getLighthouseResultsPuppeteer(url) {
@@ -94,7 +94,6 @@ async function getReport() {
 
 buildAstroApp();
 serveAstroApp();
-getReport();
 
 function readExistingData (file) {
   try {
