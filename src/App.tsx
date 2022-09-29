@@ -3,7 +3,7 @@ import * as React from 'react';
 import lhr from '../lighthouse.json';
 import ListContainer from "../src/components/ListContainer/ListContainer.jsx" 
 import LineChart from "./components/LineChart.jsx";
-import DialChart from "./components/DialChart.jsx";
+// import DialChart from "./components/DialChart.jsx";
 
 
 interface Props {
@@ -33,15 +33,17 @@ class App extends React.Component<Props> {
 
         {/* put the dials side by side */}
         {/* <div className='dialsRow'> */}
-          <DialChart 
+        
+        <div id="chart">
+          {/* <DialChart 
             name={'Current Performance'}
             results={[currPerf, gapPerf]}
           />
           <DialChart 
           name={'Current SEO'}
           results={[currSeo, gapSeo]}
-          />
-        {/* </div> */}
+          /> */}
+        </div>
 
         <LineChart />
 
