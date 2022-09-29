@@ -9,6 +9,8 @@ const path = require('path');
 const fs = require('fs');
 const { exec, execSync } = require("child_process");
 
+const DEV_MODE = false; //configurable to switch between running as a node_module in another project (false) or running as a standalone project (true)
+
 
 
 //this builds the astro app to the 'dist' folder
@@ -56,18 +58,9 @@ git log -1 --pretty="%B%at%n%h"
   let data = readExistingData('git_commits');
   data.push(commitMsg)
   const dataJson = JSON.stringify(data)
-  fs.writeFileSync('node_modules/astrospeed/git_commits.json', dataJson);
+  const pathToGitJSON = DEV_MODE ? `./git_commits.json` : `node_modules/astrospeed/git_commits.json`
 
-  /* git.json
-  [
-    {
-      msg: 'add X'
-      time: 123
-      hash: ab12
-    }
-
-  ]
-  */
+  fs.writeFileSync(pathToGitJSON, dataJson);
 
 }
 
@@ -84,8 +77,8 @@ async function getReport() {
   //save the lighthouse reports to JSON
   const dataJSON = JSON.stringify(data);
 
-
-  fs.writeFileSync('node_modules/astrospeed/lighthouse.json', dataJSON);
+  const pathToLighthouseJSON = DEV_MODE ? `./lighthouse.json` : `node_modules/astrospeed/lighthouse.json`
+  fs.writeFileSync(pathToLighthouseJSON, dataJSON);
   server.close();
   console.log('closed express server')
 
@@ -106,7 +99,8 @@ function readExistingData (file) {
   try {
     //check if node_modules/astrospeed/lighthouse.json exists
     // const oldData = fs.readFileSync('./lighthouse.json');
-    const oldData = fs.readFileSync(`node_modules/astrospeed/${file}.json`);
+    const pathToFile = DEV_MODE ? `./${file}.json` : `node_modules/astrospeed/${file}.json`
+    const oldData = fs.readFileSync(pathToFile);
     //if it does, read it, parse it. (It should be an array of lighthouse json objects) 
     return JSON.parse(oldData);
   } catch (err){
