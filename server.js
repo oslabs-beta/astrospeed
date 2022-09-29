@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 //TO-DO
 const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
