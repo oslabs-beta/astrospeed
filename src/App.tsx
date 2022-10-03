@@ -7,7 +7,6 @@ const lhr = (window as any).results;
 import ListContainer from "../src/components/ListContainer/ListContainer.jsx" 
 import LineChart from "./components/LineChart.jsx";
 import DialChart from "./components/DialChart.jsx";
-import axios from "axios";
 
 
 interface Props {

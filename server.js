@@ -70,8 +70,9 @@ async function getReport() {
   // console.log('running lighthouse report')
   const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/index.html`);
   // console.log('lighthouse report complete');
-  lhr['audits']['screenshot-thumbnails'] = null;
-  lhr['audits']['finals-screenshot'] = null;
+  lhr['audits']['screenshot-thumbnails']['details'] = null;
+  lhr['audits']['final-screenshot']['details']['data'] = null;
+  lhr['audits']['full-page-screenshot']['details'] = null;
   lhr['git'] = getCommitDetails()
 
   // read prior JSON data
