@@ -55,5 +55,5 @@ function addToGitignore() {
   });
 }
 
-addToGitignore();
+// addToGitignore();
 installHooks();
