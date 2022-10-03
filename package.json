@@ -11,7 +11,9 @@
     "start": "webpack-dev-server --mode development --open --hot"
   },
   "bin": {
-    "astrospeedsnap": "./server.js"
+    "astrospeed-snap": "./server.js",
+    "astrospeed-hookinstall": "./gitHookInstall.js",
+    "astrospeed-hookuninstall": "./githookUninstall.js"
   },
   "author": "",
   "license": "ISC",

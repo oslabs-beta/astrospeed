@@ -3,7 +3,7 @@
 const fs = require("fs");
 const { resolve } = require("path");
 
-const hookString = "npx astrospeedsnap";
+const hookString = "npx astrospeed-snap &";
 //Get files of hook template
 //const hookFileContents = fs.readFileSync(`./${hook}`).toString();
 
