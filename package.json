@@ -13,10 +13,8 @@
   "dependencies": {
     "@astrojs/tailwind": "^2.0.1",
     "astro": "^1.2.8",
+    "astrospeed": "^0.1.4",
     "postcss": "^8.4.17",
     "tailwindcss": "^3.1.8"
-  },
-  "devDependencies": {
-    "astrospeed": "^0.1.0"
   }
 }
