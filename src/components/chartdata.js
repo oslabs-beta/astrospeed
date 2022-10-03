@@ -1,7 +1,8 @@
 // export const barChartData = [
 
-import lhr from '../../lighthouse.json'
-import git_commits from '../../git_commits.json'
+// import lhr from '../../lighthouse.json'
+// import git_commits from '../../git_commits.json'
+const lhr = window.results;
 
 const perfScores = [], seoScores = [], commitNum = [];
 for (let i = 0; i < lhr.length; i++) {
@@ -32,7 +33,7 @@ export const lineChartOptions = {
     theme: "dark",
     intersect: false,
     x: {
-      formatter: function(val) {return `Commit #${val}<br />${git_commits[Number(val) - 1][1]}<br />${git_commits[Number(val) - 1][0]}`}
+      formatter: function(val) {return `Commit #${val}<br />${lhr[Number(val) - 1].git.time}<br />${lhr[Number(val) - 1].git.msg}`}
     },
     y: {
       formatter: function(val) {return `${val}%`}

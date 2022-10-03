@@ -1,7 +1,7 @@
 //import styles from "./styles.module.css";
 import React, { useState, useEffect } from "react";
 import OppurtunityItem from "./OppurtunityItem.jsx";
-import lhr from "../../../lighthouse.json";
+const lhr = window.results;
 import DiagnosticsItem from "./DiagnosticsItem";
 import styles from "../../components/ListContainer/styles.module.css";
 
