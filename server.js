@@ -14,16 +14,17 @@ const DEV_MODE = false; //configurable to switch between running as a node_modul
 
 console.log('Astrospeed report in progress...')
 
-//this builds the astro app to the 'dist' folder
+//build the user's astro app to the 'dist' folder
 function buildAstroApp() {
   const buildAstroAppCmd = 'npm run build';
   execSync(buildAstroAppCmd)
-  // console.log('done building')
 }
 
-//serve the astro app
+//declare server globally so we can call server.close() later when the lighthouse report completes.
 let server;
+
 async function serveAstroApp() {
+  //serve the astro app on port 3500
   const app = express();
   app.use('*', express.static('dist'));
   server = app.listen(3500, () => getReport());
@@ -43,84 +44,68 @@ async function getLighthouseResultsPuppeteer(url) {
 }
 
 function getCommitDetails() {
-  // console.log('getting latest git commit details')
-  /*
-git log -1 --pretty="%B%at%n%h"
-  add function to get commit data
-  1664395260
-  62b0165
-  */
+  //get latest commit from git log, format it to include commit body (%B), timestamp (%ai), hash (%h)
   let commitMsg = execSync('git log -1 --pretty="%B%ai%n%h"').toString().replace(/\n/g,',').split(',').slice(0,3);
   let commitProperties = ['msg', 'time', 'hash']
   let newCommitData = {};
   for (let i = 0; i < 3; i++) {
     newCommitData[commitProperties[i]] = commitMsg[i];
   }
+  //return latest object with latest commit details
   return newCommitData;
-  // let data = readExistingData('git_commits');
-  // data.push(commitMsg)
-  // const dataJson = JSON.stringify(data)
-  // const pathToGitJSON = DEV_MODE ? `./git_commits.json` : `node_modules/astrospeed/git_commits.json`
-
-  // fs.writeFileSync(pathToGitJSON, dataJson);
-
 }
 
 async function getReport() {
-  // console.log('running lighthouse report')
+  //use puppeteer to get lighthouse results object and store it in lhr
   const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/index.html`);
-  // console.log('lighthouse report complete');
+  //close express server after lighthouse returns results
+  server.close();
+  //remove unused screenshots from lhr to save space 
   lhr['audits']['screenshot-thumbnails']['details'] = null;
   lhr['audits']['final-screenshot']['details']['data'] = null;
   lhr['audits']['full-page-screenshot']['details'] = null;
-  lhr['git'] = getCommitDetails()
+  //add git details to the lighthouse report under key 'git'
+  lhr['git'] = getCommitDetails();
 
-  // read prior JSON data
+  // read results.js
   const data = readExistingData();
-    // push latest report into data array
+  // push latest report + git details into data array
   data.push(lhr);
 
-  //save the lighthouse reports to JSON
+  //resultsOutput is a JS expression that assigns window.results to the data array. 
   const resultsOutput = 'window.results = ' + JSON.stringify(data);
+  //outputDir is the astro project two levels up + folder 'astrospeed'. (cwd is inside node_modules/astrospeed)
   const outputDir = path.resolve(path.join(__dirname, '../../astrospeed/'));
 
   if (!fs.existsSync(outputDir)) {
-    //make the directory
+    //if the outputDir doesn't exist, create it
     fs.mkdirSync(outputDir)
   }
+  //write resultsOutput to results.js
   fs.writeFileSync('./astrospeed/results.js', resultsOutput);
-  if (!fs.existsSync(path.join(outputDir, 'bundle.js'))) {
+
+  if (!fs.existsSync(path.join(outputDir, 'bundle.js')) || !fs.existsSync(path.join(outputDir, 'index.html'))) {
+    //if bundle.js or index.html doesn't exist in the astro project folder under 'astrospeed' dir, copy them over from node_modules/astrospeed
     fs.copyFileSync(path.resolve(path.join(__dirname, './astrospeed/index.html')), path.join(outputDir, 'index.html'));
     fs.copyFileSync(path.resolve(path.join(__dirname, './astrospeed/bundle.js')), path.join(outputDir, 'bundle.js'));
   }
 
-
-  server.close();
-  // console.log('closed express server')
-  console.log('Astrospeed report written to', path.resolve(__dirname, '../../astrospeed/index.html'))
-
-  // const buildReport = 'npm run build-dev --prefix node_modules/astrospeed/'
-  // await exec(buildReport, (err, stdout, stderr) => {
-  //   if (err) console.log('error', err.message);
-  //   if (stderr) console.log('error', stderr);
-  //   console.log('Astrospeed report written to', path.resolve(__dirname, '../../astrospeed/index.html'));
-  // })
+  //write to user's terminal the path of the astrospeed report. 
+  console.log('Astrospeed report available at', path.resolve(__dirname, '../../astrospeed/index.html'))
 }
 
 buildAstroApp();
 serveAstroApp();
 
-function readExistingData (file) {
+function readExistingData () {
+  //check if results.js already exists, if so return the contents, otherwise return empty array
   try {
-    //check if node_modules/astrospeed/lighthouse.json exists
-    // const oldData = fs.readFileSync('./lighthouse.json');
     const pathToFile = './astrospeed/results.js'
     const oldData = fs.readFileSync(pathToFile);
-    const oldData2 = oldData.slice(16)
-    //if it does, read it, parse it. (It should be an array of lighthouse json objects) 
-    return JSON.parse(oldData2);
+    //remove the window.results assignment to just get the array
+    const oldDataParsed = oldData.slice(16)
+    return JSON.parse(oldDataParsed);
   } catch (err){
-    // if it doesn't, return an empty array
     return [];
   }
 }

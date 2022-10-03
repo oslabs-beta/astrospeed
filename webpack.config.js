@@ -36,9 +36,7 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       templateContent: ({ htmlWebpackPlugin }) =>
-        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' +
-        htmlWebpackPlugin.options.title +
-        '</title><script src="results.js"></script></head><body><div id="app"></div></body></html>',
+        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Astrospeed Report</title><script src="results.js"></script></head><body><div id="app"></div></body></html>',
       filename: "index.html",
       chunks: 'bundle'
     }),
