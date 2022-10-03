@@ -10,6 +10,7 @@ const hookString = "npx astrospeedsnap";
 // function uninstallHook() {
   //Make sure there is a .git folder
 const gitRoot = resolve(process.env.INIT_CWD + "/.git");
+
 if (fs.existsSync(gitRoot)) {
   // const hooksDir = resolve(gitRoot, "hooks");
   // ensureDirExists(hooksDir); //Add hooks folder if it doesn't exist
@@ -17,11 +18,11 @@ if (fs.existsSync(gitRoot)) {
   if (fs.existsSync(hookFile)) {
     let fileContents = fs.readFileSync(hookFile, 'utf-8');
     if (fileContents.includes(hookString)) {
-      const newContents = fileContents.replaceAll(hookstring,'');
+      const newContents = fileContents.replaceAll(hookString,'');
       fs.writeFileSync(hookFile, newContents, 'utf-8');
       console.log('astroSpeed post-commit hooks removed');
     } else {
-      console.warn("No astroSpeed hooks found post-commit hooks");
+      console.warn("No astroSpeed hooks found in post-commit hooks");
     }
   } else {
     console.warn('No post-commit hooks found');
