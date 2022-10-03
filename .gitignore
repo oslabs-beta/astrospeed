@@ -1,7 +1,4 @@
 node_modules
-astrospeed
 dist
 .DS_Store
 package-lock.json
-
-astroSpeed/
