@@ -15,19 +15,21 @@ function installHooks() {
     ensureDirExists(hooksDir); //Add hooks folder if it doesn't exist
     const hookFile = resolve(hooksDir, hook);
     if (fs.existsSync(hookFile)) {
-      if (hookFile.toString().match(/npx astrospeed-snap/)) {
+      let fileContents = fs.readFileSync(hookFile, 'utf-8');
+      if (fileContents.includes('npx astrospeed-snap')) {
         console.warn("Correct git hook already in place");
       } else {
-        console.warn(
-          "Post-commit git hook already exists.\nPlease add `npx astrospeed-snap &` to your existing post-commit hook to enable astroSpeed."
-        );
+        fs.appendFileSync(hookFile, '\nnpx astrospeed-snap &\n');
+        console.log('astroSpeed hook appended to existing post-commit hooks');
+        // console.warn(
+        //   "Post-commit git hook already exists.\nPlease add `npx astrospeed-snap &` to your existing post-commit hook to enable astroSpeed."
+        // );
       }
       return;
     }
     fs.writeFileSync(
       hookFile,
-      `#!/bin/sh
-      npx astrospeed-snap &`
+      `#!/bin/sh\nnpx astrospeed-snap &\n`
     ); //create hook file
     fs.chmodSync(hookFile, "755"); //make hook file executable
     console.log("astroSpeed git integration was successful!");
