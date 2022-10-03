@@ -56,12 +56,13 @@ git log -1 --pretty="%B%at%n%h"
   for (let i = 0; i < 3; i++) {
     newCommitData[commitProperties[i]] = commitMsg[i];
   }
-  let data = readExistingData('git_commits');
-  data.push(commitMsg)
-  const dataJson = JSON.stringify(data)
-  const pathToGitJSON = DEV_MODE ? `./git_commits.json` : `node_modules/astrospeed/git_commits.json`
+  return newCommitData;
+  // let data = readExistingData('git_commits');
+  // data.push(commitMsg)
+  // const dataJson = JSON.stringify(data)
+  // const pathToGitJSON = DEV_MODE ? `./git_commits.json` : `node_modules/astrospeed/git_commits.json`
 
-  fs.writeFileSync(pathToGitJSON, dataJson);
+  // fs.writeFileSync(pathToGitJSON, dataJson);
 
 }
 
@@ -69,27 +70,40 @@ async function getReport() {
   // console.log('running lighthouse report')
   const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/index.html`);
   // console.log('lighthouse report complete');
+  lhr['audits']['screenshot-thumbnails'] = null;
+  lhr['audits']['finals-screenshot'] = null;
+  lhr['git'] = getCommitDetails()
 
   // read prior JSON data
-  const data = readExistingData('lighthouse');
+  const data = readExistingData();
     // push latest report into data array
   data.push(lhr);
 
   //save the lighthouse reports to JSON
-  const dataJSON = JSON.stringify(data);
+  const resultsOutput = 'window.results = ' + JSON.stringify(data);
+  const outputDir = path.resolve(path.join(__dirname, '../../astrospeed/'));
 
-  const pathToLighthouseJSON = DEV_MODE ? `./lighthouse.json` : `node_modules/astrospeed/lighthouse.json`
-  fs.writeFileSync(pathToLighthouseJSON, dataJSON);
+  if (!fs.existsSync(outputDir)) {
+    //make the directory
+    fs.mkdirSync(outputDir)
+  }
+  fs.writeFileSync('./astrospeed/results.js', resultsOutput);
+  if (!fs.existsSync(path.join(outputDir, 'bundle.js'))) {
+    fs.copyFileSync(path.resolve(path.join(__dirname, './astrospeed/index.html')), path.join(outputDir, 'index.html'));
+    fs.copyFileSync(path.resolve(path.join(__dirname, './astrospeed/bundle.js')), path.join(outputDir, 'bundle.js'));
+  }
+
+
   server.close();
   // console.log('closed express server')
+  console.log('Astrospeed report written to', path.resolve(__dirname, '../../astrospeed/index.html'))
 
-  getCommitDetails()
-  const buildReport = 'npm run build-dev --prefix node_modules/astrospeed/'
-  await exec(buildReport, (err, stdout, stderr) => {
-    if (err) console.log('error', err.message);
-    if (stderr) console.log('error', stderr);
-    console.log('Astrospeed report written to', path.resolve(__dirname, '../../astrospeed/index.html'));
-  })
+  // const buildReport = 'npm run build-dev --prefix node_modules/astrospeed/'
+  // await exec(buildReport, (err, stdout, stderr) => {
+  //   if (err) console.log('error', err.message);
+  //   if (stderr) console.log('error', stderr);
+  //   console.log('Astrospeed report written to', path.resolve(__dirname, '../../astrospeed/index.html'));
+  // })
 }
 
 buildAstroApp();
@@ -99,10 +113,11 @@ function readExistingData (file) {
   try {
     //check if node_modules/astrospeed/lighthouse.json exists
     // const oldData = fs.readFileSync('./lighthouse.json');
-    const pathToFile = DEV_MODE ? `./${file}.json` : `node_modules/astrospeed/${file}.json`
+    const pathToFile = './astrospeed/results.js'
     const oldData = fs.readFileSync(pathToFile);
+    const oldData2 = oldData.slice(16)
     //if it does, read it, parse it. (It should be an array of lighthouse json objects) 
-    return JSON.parse(oldData);
+    return JSON.parse(oldData2);
   } catch (err){
     // if it doesn't, return an empty array
     return [];

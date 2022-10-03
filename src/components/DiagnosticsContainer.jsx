@@ -1,5 +1,6 @@
 import React from "react";
-import lhr from '../../lighthouse.json'
+// import lhr from '../../lighthouse.json'
+const lhr = window.results;
 
 
 class DiagnosticsContainer extends React.Component {

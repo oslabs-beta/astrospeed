@@ -2,12 +2,12 @@ const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const DEV_MODE = true;
+
 const config = {
   entry: "./src/index.tsx",
   output: {
-    // path: path.resolve(__dirname, 'dist'),
-    // path: path.resolve(__dirname, './astrospeed'), //or ../../astrospeed in PROD mode
-    path: path.resolve(__dirname, '../../astrospeed'), //or ../../astrospeed in PROD mode
+    path: path.resolve(__dirname, DEV_MODE ? './astrospeed' : '../../astrospeed'),
     filename: 'bundle.js'
   },
   module: {
@@ -38,13 +38,14 @@ const config = {
       templateContent: ({ htmlWebpackPlugin }) =>
         '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' +
         htmlWebpackPlugin.options.title +
-        '</title></head><body><div id="app"></div></body></html>',
+        '</title><script src="results.js"></script></head><body><div id="app"></div></body></html>',
       filename: "index.html",
+      chunks: 'bundle'
     }),
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".jsx"],
-  },
+  }
 };
 
 module.exports = config;
