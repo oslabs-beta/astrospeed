@@ -4,21 +4,31 @@
 // import git_commits from '../../git_commits.json'
 const lhr = window.results;
 
-const perfScores = [], seoScores = [], commitNum = [];
+const perfScores = [], seoScores = [], commitNum = [], bestPracScores = [], a11yScores = [];
 for (let i = 0; i < lhr.length; i++) {
   commitNum.push(i + 1);
   perfScores.push(lhr[i].categories.performance.score * 100);
   seoScores.push(lhr[i].categories.seo.score * 100);
+  bestPracScores.push(lhr[i].categories['best-practices'].score * 100);
+  a11yScores.push(lhr[i].categories.accessibility.score * 100);
 }
 
 export const lineChartData = [
   {
-    name: "Performance Score",
+    name: "Performance",
     data: perfScores,
   },
   {
-    name: "SEO Score",
+    name: "Search Engine Optimization",
     data: seoScores,
+  },
+  {
+    name: "Best Practices",
+    data: bestPracScores,
+  },
+  {
+    name: "Accessibility",
+    data: a11yScores,
   },
 ];
 

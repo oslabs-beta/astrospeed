@@ -17,13 +17,13 @@ const DiagnosticsItem = ({ data }) => {
       <div onClick={handleClick} className={styles.arrow}></div>
       <div className={styles.mainItem}>
         <div className={styles.dataTitle}>{data.title}</div>
-        <div>{data.displayValue}</div>
+        <div>{data.displayValue || String(data.score * 100) + '%' }</div>
       </div>
 
       {open && (
         <div className={styles.bottomData}>
-          <div className={styles.description}>{data.description}</div>
-          <div>{data.score}</div>
+          <div className={styles.description}>{data.description}{data.link && (<a href={data.link[0]}>Learn More</a>)}</div>
+          {/* <div>{data.score}</div> */}
         </div>
       )}
     </div>

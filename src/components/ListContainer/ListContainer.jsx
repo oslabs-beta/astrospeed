@@ -55,6 +55,8 @@ const ListContainer = () => {
     diagnostics[category] = refs.map(ref => {
       const fullAudit = lhr[lhr.length - 1]['audits'][ref.id];
       if (!fullAudit.score) return null
+      fullAudit.link = fullAudit.description.match(/https:\/\/web.dev.*\//);
+      fullAudit.description = fullAudit.description.replace(/\[Learn.*/, '')
       return fullAudit
       // return lhr[lhr.length - 1]['audits'][ref.id]
     }).filter(ref => ref).sort((a, z) => a.score - z.score);
@@ -97,6 +99,18 @@ const ListContainer = () => {
         <h4>SEO:</h4>
         <div>
           {diagnostics.seo.map((data) => (
+            <DiagnosticsItem data={data} key={data.id} />
+          ))}
+        </div>
+        <h4>Best Practices:</h4>
+        <div>
+          {diagnostics['best-practices'].map((data) => (
+            <DiagnosticsItem data={data} key={data.id} />
+          ))}
+        </div>
+        <h4>Accessibility:</h4>
+        <div>
+          {diagnostics.accessibility.map((data) => (
             <DiagnosticsItem data={data} key={data.id} />
           ))}
         </div>
