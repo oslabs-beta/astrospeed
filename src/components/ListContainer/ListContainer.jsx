@@ -1,9 +1,9 @@
 //import styles from "./styles.module.css";
 import React, { useState, useEffect } from "react";
-import OppurtunityItem from "./OppurtunityItem.jsx";
+// import OppurtunityItem from "./OppurtunityItem.jsx";
 const lhr = window.results;
 import DiagnosticsItem from "./DiagnosticsItem";
-import styles from "../../components/ListContainer/styles.module.css";
+import styles from "./styles.module.css";
 
 const ListContainer = () => {
   //in the json, there is a object called audits
@@ -47,29 +47,34 @@ const ListContainer = () => {
     "cumulative-layout-shift",
   ];
 
-  const seoOpportunities = [];
 
-  let opportData = [
-    // { title: "Reduce unused JavaScript", score: 0.6 },
-    // { title: "Preload Largest Contentful Paint image", score: 0.45 },
-    // { title: "Reduce unused CSS", score: 0.15 },
-  ];
 
-  const latestAudit = Object.keys(lhr[lhr.length - 1].audits);
-  let perfMetricObjects = [];
-  for (let i = 0; i < performanceMetrics.length; i++) {
-    perfMetricObjects.push(lhr[lhr.length - 1].audits[performanceMetrics[i]]);
-  }
+  const diagnostics = {};
+  for (const category of Object.keys(lhr[lhr.length - 1]['categories'])) {
+    const refs = lhr[lhr.length - 1]['categories'][category]['auditRefs'];
+    diagnostics[category] = refs.map(ref => {
+      const fullAudit = lhr[lhr.length - 1]['audits'][ref.id];
+      if (!fullAudit.score) return null
+      return fullAudit
+      // return lhr[lhr.length - 1]['audits'][ref.id]
+    }).filter(ref => ref).sort((a, z) => a.score - z.score);
+  };
+  console.log(diagnostics)
+  // const latestAudit = Object.keys(lhr[lhr.length - 1].audits);
+  // let perfMetricObjects = [];
+  // for (let i = 0; i < performanceMetrics.length; i++) {
+  //   perfMetricObjects.push(lhr[lhr.length - 1].audits[performanceMetrics[i]]);
+  // }
 
-  let auditsRelatedToPerformance =
-    lhr[lhr.length - 1].categories.performance.auditRefs; //opportunities and diagnostics
-  for (let i = 0; i < performanceOpportunities.length; i++) {
-    console.log(
-      "I AM LINE 67...",
-      lhr[lhr.length - 1].audits[performanceOpportunities[i]]
-    );
-  }
-  console.log("I AM AUDTISRELATEDTOPERMANCE...", auditsRelatedToPerformance);
+  // let auditsRelatedToPerformance =
+  //   lhr[lhr.length - 1].categories.performance.auditRefs; //opportunities and diagnostics
+  // for (let i = 0; i < performanceOpportunities.length; i++) {
+  //   console.log(
+  //     "I AM LINE 67...",
+  //     lhr[lhr.length - 1].audits[performanceOpportunities[i]]
+  //   );
+  // }
+  // console.log("I AM AUDTISRELATEDTOPERMANCE...", auditsRelatedToPerformance);
 
   let diaData = [
     // { title: "Reduce unused JavaScript", score: 0.6 },
@@ -77,26 +82,32 @@ const ListContainer = () => {
     // { title: "Reduce unused CSS", score: 0.15 },
   ];
 
-  console.log("I AM 77...", perfMetricObjects);
+  // console.log("I AM 77...", perfMetricObjects);
 
   return (
     <div>
-      <h3>Important metrics:</h3>
+      <h3>Opportunities and Diagnostics:</h3>
       <div>
-        <h4>Your Opportunities:</h4>
+      <h4>Performance:</h4>
         <div>
-          {perfMetricObjects.map((data) => (
-            <OppurtunityItem data={data} key={data.id} />
+          {diagnostics.performance.map((data) => (
+            <DiagnosticsItem data={data} key={data.id} />
+          ))}
+        </div>
+        <h4>SEO:</h4>
+        <div>
+          {diagnostics.seo.map((data) => (
+            <DiagnosticsItem data={data} key={data.id} />
           ))}
         </div>
       </div>
       <div>
-        <h4>Your Diagnostics:</h4>
+        {/* <h4>Your Diagnostics:</h4>
         <div>
           {perfMetricObjects.map((data) => (
             <DiagnosticsItem data={data} key={data.id} />
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
