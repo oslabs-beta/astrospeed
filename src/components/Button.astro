@@ -1,17 +1,9 @@
 ---
-// Styled by Tailwind :)
 const {color} = Astro.props;
-// const darkerColor = color.slice(0,-3) + (Number(color.slice(-3)) + 200);
 let tailClass;
 if (color === 'stone') tailClass = `bg-stone-100 hover:bg-stone-300 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 w-32 h-10 py-2 px-2 m-1 font-semibold rounded-lg`;
 if (color === 'yellow') tailClass = `bg-yellow-200 hover:bg-yellow-400 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 w-32 h-10 py-2 px-2 m-1 font-semibold rounded-lg`;
 ---
-<!-- <style>
-	@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
-	button {
-		font-family: 'Poppins', sans-serif;
-}
-</style> -->
 
 <button	class={tailClass}>
 	<slot />
