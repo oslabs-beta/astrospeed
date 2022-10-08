@@ -9,6 +9,10 @@ h1 {
   background-color: black;
 }
 
+body {
+  margin: 0px
+}
+
 .text-primary {
   color: #666666;
 }
@@ -37,7 +41,7 @@ h1 {
   display: grid;
   /* how many columns, width values. nav bar fixed to 260px */
   grid-template-columns: 260px 1fr 1fr 1fr;
-  grid-template-rows: 0.2fr 3fr;
+  grid-template-rows: 0fr 3fr;
   grid-template-areas: 
     "sidebar header header header"
     "sidebar main main main";
@@ -105,6 +109,14 @@ h1 {
 .sidebar-list-item {
   padding: 20px 20px 20px 20px;
 }
+.endpoint {
+  padding: 10px 10px 10px 25px;
+  background-color: #333747
+}
+.endpoint:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
 
 /* use CSS hover selector  */
 .sidebar-list-item:hover {
@@ -129,7 +141,7 @@ h1 {
 
 .main-container {
   grid-area: main;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   padding: 20px 20px;
 }
 
@@ -161,6 +173,19 @@ h1 {
   border: solid #d2d2d2; 
   border-radius: 5px;
   box-shadow: 0 6px 7px -4px rbga(0, 0, 0, 0.2);
+}
+
+.card:hover {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 25px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border: solid #d2d2d2; 
+  border-radius: 5px;
+  box-shadow: 0 6px 7px -4px rbga(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 /* use first child selector selects the first card */

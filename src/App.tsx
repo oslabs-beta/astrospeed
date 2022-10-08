@@ -34,25 +34,6 @@ class App extends React.Component<{}, {currentMetric: string}> {
       <>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
       <div className="grid-container">
-
-{/* <!-- header --> */}
-<header className="header">
-    {/* <!-- open collapsed menu on click --> */}
-    <div className="menu-icons">
-        <span className="material-symbols-outlined">menu</span>
-    </div>
-
-    <div className="header-left">
-        <span className="material-symbols-outlined">search</span>
-    </div>
-    <div className="header-right">
-        <span className="material-symbols-outlined">notifications</span>
-        <span className="material-symbols-outlined">email</span>
-        <span className="material-symbols-outlined">account_circle</span>
-    </div>
-</header>
-
-
 {/* <!-- sidebar --> */}
 <aside id="sidebar">
     <div className="sidebar-title">
@@ -65,16 +46,19 @@ class App extends React.Component<{}, {currentMetric: string}> {
 
      <ul className="sidebar-list">
         <li className="sidebar-list-item">
-            <span className="material-symbols-outlined">dashboard</span>Endpoints
+            <span className="material-symbols-outlined">expand_more</span>Endpoints
+        </li>
+        <li className="endpoint">
+            /
+        </li>
+        <li className="endpoint">
+            /about
+        </li>
+        <li className="endpoint">
+            /blog
         </li>
         <li className="sidebar-list-item">
-            Performance
-        </li>
-        <li className="sidebar-list-item">
-            <span className="material-symbols-outlined">expand_more</span>Change Endpoint
-        </li>
-        <li className="sidebar-list-item">
-            <span className="material-symbols-outlined">help</span> Guide & Demo
+            <span className="material-symbols-outlined">help</span> Documentation
         </li>
         <li className="sidebar-list-item">
             <span className="material-symbols-outlined">rocket_launch</span> astroSpeed Login
@@ -90,24 +74,28 @@ class App extends React.Component<{}, {currentMetric: string}> {
 
     <div className="main-cards">
        <Card 
-       name={'Performance'}
-       onClick={() => {
-        console.log('hi')
-        this.setState({currentMetric: 'performance'})
-      }}
+       name='Performance'
+       icon='bolt'
+       diagnosticsState={() => this.setState({currentMetric: 'performance'})}
        data={currPerf} 
        />
       <Card 
-       name={'SEO'}
-       onClick={() => this.setState({currentMetric: 'seo'})}
+       name='SEO'
+       icon='data_thresholding'
+       diagnosticsState={() => this.setState({currentMetric: 'seo'})}
+      //  onClick={() => this.setState({currentMetric: 'seo'})}
        data={currSeo} 
        />
       <Card 
        name={'Best Practices'}
+       icon='heart_plus'
+       diagnosticsState={() => this.setState({currentMetric: 'best-practices'})}
        data={currBP} 
        />
       <Card 
        name={'Accessibility'}
+       icon='settings_accessibility'
+       diagnosticsState={() => this.setState({currentMetric: 'accessibility'})}
        data={currAcc} 
        />
     </div>
@@ -118,25 +106,26 @@ class App extends React.Component<{}, {currentMetric: string}> {
 
     <div className="charts">
         <div className="charts-card">
-            <p className="chart-title">Metrics</p>
+            <p className="chart-title">Web Vitals</p>
             <div id="area-chart">
             <LineChart />
             </div>
         </div>
 
         <div className="recommendations">
-            <p className="chart-title">Recommended Actions</p>
+            <p className="chart-title">Details</p>
             <div id="bar-chart">
             <ListContainer currentMetric={this.state.currentMetric}/>
             </div>
         </div>
 
     </div>
+    Report generated at: {reportTime} <br />
 
 </main>
 
 </div>
-        Report generated at: {reportTime} <br />
+        
         </>
     )
 

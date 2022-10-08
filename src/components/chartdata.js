@@ -79,7 +79,8 @@ export const lineChartOptions = {
       },
     },
     max: 100,
-    // tickAmount: 5
+    min: 0,
+    tickAmount: 4
   },
   legend: {
     show: true,
