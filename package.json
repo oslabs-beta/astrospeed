@@ -1,5 +1,5 @@
 {
-  "name": "@example/with-tailwindcss",
+  "name": "astroSpeed",
   "type": "module",
   "version": "0.0.1",
   "private": true,
@@ -13,8 +13,7 @@
   "dependencies": {
     "@astrojs/tailwind": "^2.0.1",
     "astro": "^1.2.8",
-    "astrospeed": "^0.1.5",
     "postcss": "^8.4.17",
     "tailwindcss": "^3.1.8"
   }
-} 
+}
