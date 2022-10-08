@@ -55,9 +55,9 @@ function getCommitDetails() {
   return newCommitData;
 }
 
-async function getReport() {
+async function getReport(endpoint) {
   //use puppeteer to get lighthouse results object and store it in lhr
-  const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/index.html`);
+  const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/${endpoint}`);
   //close express server after lighthouse returns results
   server.close();
   //remove unused screenshots from lhr to save space 
@@ -107,5 +107,18 @@ function readExistingData () {
     return JSON.parse(oldDataParsed);
   } catch (err){
     return [];
+  }
+}
+
+function readConfig() {
+  try {
+    const config = fs.readFileSync('./astrospeed.config.json');
+    return JSON.parse(config);
+  } catch (err){
+    return {
+      endpoints: ['/', '/about'],
+      port: 3500,
+      astroBuildCommand: 'npm run build'
+    };
   }
 }

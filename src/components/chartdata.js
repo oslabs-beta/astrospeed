@@ -99,7 +99,7 @@ export const lineChartOptions = {
       opacityTo: 0,
       stops: [],
     },
-    colors: ["#3700A4", "#facc15"],
+    colors: ["#246dec", "#f5b74f", "#367952", "#cc3c43"],
   },
-  colors: ["#3700A4", "#facc15"],
+  colors: ["#246dec", "#f5b74f", "#367952", "#cc3c43"],
 };

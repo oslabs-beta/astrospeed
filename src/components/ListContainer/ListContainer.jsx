@@ -5,7 +5,7 @@ const lhr = window.results;
 import DiagnosticsItem from "./DiagnosticsItem";
 import styles from "./styles.module.css";
 
-const ListContainer = () => {
+const ListContainer = (props) => {
   //in the json, there is a object called audits
   //the following keys in that object are possible Perofrmance opportunities
   const performanceOpportunities = [
@@ -92,28 +92,28 @@ const ListContainer = () => {
       <div>
       <h4>Performance:</h4>
         <div>
-          {diagnostics.performance.map((data) => (
+          {diagnostics[props.currentMetric].map((data) => (
             <DiagnosticsItem data={data} key={data.id} />
           ))}
         </div>
-        <h4>SEO:</h4>
+        {/* <h4>SEO:</h4>
         <div>
           {diagnostics.seo.map((data) => (
             <DiagnosticsItem data={data} key={data.id} />
           ))}
-        </div>
-        <h4>Best Practices:</h4>
+        </div> */}
+        {/* <h4>Best Practices:</h4>
         <div>
           {diagnostics['best-practices'].map((data) => (
             <DiagnosticsItem data={data} key={data.id} />
           ))}
-        </div>
-        <h4>Accessibility:</h4>
+        </div> */}
+        {/* <h4>Accessibility:</h4>
         <div>
           {diagnostics.accessibility.map((data) => (
             <DiagnosticsItem data={data} key={data.id} />
           ))}
-        </div>
+        </div> */}
       </div>
       <div>
         {/* <h4>Your Diagnostics:</h4>

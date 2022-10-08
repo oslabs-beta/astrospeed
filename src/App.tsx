@@ -1,18 +1,24 @@
 
-import * as React from 'react';
+import React, { useState } from 'react';
 const lhr = (window as any).results;
 import ListContainer from "./components/ListContainer/ListContainer.jsx" 
 import LineChart from "./components/LineChart.jsx";
 import DialChart from "./components/DialChart.jsx";
 import Card from "./components/Card.jsx"
 
-interface Props {
-   name: string
-}
+// interface Props {
+//    currentMetric: string
+// }
 
-class App extends React.Component<Props> {
-
+class App extends React.Component<{}, {currentMetric: string}> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      currentMetric: 'performance'
+    };
+  }
   render() {
+    // const [currentMetric, setcurrentMetric] = useState('Performance');
 
     const reportTime = lhr[lhr.length - 1].git.time;
     const currPerf = lhr[lhr.length-1].categories.performance.score * 100
@@ -59,10 +65,10 @@ class App extends React.Component<Props> {
 
      <ul className="sidebar-list">
         <li className="sidebar-list-item">
-            <span className="material-symbols-outlined">dashboard</span>Dashboard
+            <span className="material-symbols-outlined">dashboard</span>Endpoints
         </li>
         <li className="sidebar-list-item">
-            <span className="material-symbols-outlined">bolt</span>Performance
+            Performance
         </li>
         <li className="sidebar-list-item">
             <span className="material-symbols-outlined">expand_more</span>Change Endpoint
@@ -79,74 +85,40 @@ class App extends React.Component<Props> {
 {/* <!-- main --> */}
 <main className="main-container">
     <div className="main-title">
-        <p className="font-weight-bold">Current Commit Analytics</p>
+        <p className="font-weight-bold">Overview</p>
     </div>
 
     <div className="main-cards">
        <Card 
        name={'Performance'}
+       onClick={() => {
+        console.log('hi')
+        this.setState({currentMetric: 'performance'})
+      }}
        data={currPerf} 
        />
-
       <Card 
        name={'SEO'}
+       onClick={() => this.setState({currentMetric: 'seo'})}
        data={currSeo} 
        />
-
       <Card 
        name={'Best Practices'}
        data={currBP} 
        />
-
       <Card 
        name={'Accessibility'}
        data={currAcc} 
        />
-
-
-        {/* <div className="card">
-            <div className="card-inner">
-                <p className="text-primary">PERFORMANCE SCORE</p>
-                <span className="material-symbols-outlined text-blue">bolt</span>
-            </div>
-            <DialChart name={'Current Performance'} data = {currPerf}/>
-            <span className="text-primary font-weight-bold">{currPerf}</span>
-        </div> */}
-{/* 
-        <div className="card">
-            <div className="card-inner">
-                <p className="text-primary">SEO SCORE</p>
-                <span className="material-symbols-outlined text-orange">data_thresholding</span>
-                <DialChart name={'Current SEO'} data = {currSeo}/>
-            </div>
-            <span className="text-primary font-weight-bold">{currSeo}</span>
-        </div>
-
-        <div className="card">
-            <div className="card-inner">
-                <p className="text-primary">BEST PRACTICES SCORE</p>
-                <span className="material-symbols-outlined text-blue">heart_plus</span>
-            </div>
-            <span className="text-primary font-weight-bold">{currBP}</span>
-        </div>
-
-        <div className="card">
-            <div className="card-inner">
-                <p className="text-primary">ACCESSIBILITY SCORE</p>
-                <span className="material-symbols-outlined text-blue">settings_accessibility</span>
-            </div>
-            <span className="text-primary font-weight-bold">{currAcc}</span>
-        </div> */}
-    {/* <!-- end of 4 cards --> */}
     </div>
 
     <div className="main-title">
-        <p className="font-weight-bold">Trends & Diagostics</p>
+        <p className="font-weight-bold">Details & Diagnostics</p>
     </div>
 
     <div className="charts">
         <div className="charts-card">
-            <p className="chart-title">Metrics Over Commits</p>
+            <p className="chart-title">Metrics</p>
             <div id="area-chart">
             <LineChart />
             </div>
@@ -155,7 +127,7 @@ class App extends React.Component<Props> {
         <div className="recommendations">
             <p className="chart-title">Recommended Actions</p>
             <div id="bar-chart">
-            <ListContainer />
+            <ListContainer currentMetric={this.state.currentMetric}/>
             </div>
         </div>
 
@@ -165,7 +137,6 @@ class App extends React.Component<Props> {
 
 </div>
         Report generated at: {reportTime} <br />
-      
         </>
     )
 
