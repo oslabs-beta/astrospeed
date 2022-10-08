@@ -4,8 +4,6 @@ const fs = require("fs");
 const { resolve } = require("path");
 
 const hook = "post-commit";
-//Get files of hook template
-//const hookFileContents = fs.readFileSync(`./${hook}`).toString();
 
 function installHooks() {
   //Make sure there is a .git folder
