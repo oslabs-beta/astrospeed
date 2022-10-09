@@ -1,33 +1,30 @@
 #!/usr/bin/env node
 
-//TO-DO
 const lighthouse = require('lighthouse');
-const chromeLauncher = require('chrome-launcher');
 const puppeteer = require('puppeteer');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const { exec, execSync } = require("child_process");
+const { execSync } = require("child_process");
 
-const DEV_MODE = false; //configurable to switch between running as a node_module in another project (false) or running as a standalone project (true)
-
+const { endpoints, port, buildCommand, outputDir } = readConfig();
+let server;
 
 console.log('Astrospeed report in progress...')
 
+buildApp();
+serveAppAndRunLHR();
+
 //build the user's astro app to the 'dist' folder
-function buildAstroApp() {
-  const buildAstroAppCmd = 'npm run build';
-  execSync(buildAstroAppCmd)
+function buildApp() {
+  execSync(buildCommand)
 }
 
-//declare server globally so we can call server.close() later when the lighthouse report completes.
-let server;
-
-async function serveAstroApp() {
+async function serveAppAndRunLHR() {
   //serve the astro app on port 3500
   const app = express();
-  app.use('*', express.static('dist'));
-  server = app.listen(3500, () => getReport());
+  app.use('*', express.static(outputDir));
+  server = app.listen(port, getReport);
 }
 
 async function getLighthouseResultsPuppeteer(url) {
@@ -55,9 +52,9 @@ function getCommitDetails() {
   return newCommitData;
 }
 
-async function getReport(endpoint) {
+async function getReport() {
   //use puppeteer to get lighthouse results object and store it in lhr
-  const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/${endpoint}`);
+  const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/index.html`);
   //close express server after lighthouse returns results
   server.close();
   //remove unused screenshots from lhr to save space 
@@ -67,10 +64,13 @@ async function getReport(endpoint) {
   //add git details to the lighthouse report under key 'git'
   lhr['git'] = getCommitDetails();
 
+
+
   // read results.js
   const data = readExistingData();
   // push latest report + git details into data array
   data.push(lhr);
+  // if (!(endpoints in window)) window.endpoints = [];
 
   //resultsOutput is a JS expression that assigns window.results to the data array. 
   const resultsOutput = 'window.results = ' + JSON.stringify(data);
@@ -94,8 +94,7 @@ async function getReport(endpoint) {
   console.log('Astrospeed report available at', path.resolve(__dirname, '../../astrospeed/index.html'))
 }
 
-buildAstroApp();
-serveAstroApp();
+
 
 function readExistingData () {
   //check if results.js already exists, if so return the contents, otherwise return empty array
@@ -111,14 +110,17 @@ function readExistingData () {
 }
 
 function readConfig() {
+  //check if user-defined custom config exists, else use defaults
+  const defaultCfg = {
+    endpoints: ['/', '/about'],
+    port: 3500,
+    buildCommand: 'npm run build',
+    outputDir: 'dist'
+  }
   try {
     const config = fs.readFileSync('./astrospeed.config.json');
-    return JSON.parse(config);
+    return Object.assign({}, defaultCfg, JSON.parse(config));
   } catch (err){
-    return {
-      endpoints: ['/', '/about'],
-      port: 3500,
-      astroBuildCommand: 'npm run build'
-    };
+    return defaultCfg
   }
 }

@@ -20,14 +20,15 @@ const ListContainer = (props) => {
   for (const category of Object.keys(lhr[lhr.length - 1]['categories'])) {
     const refs = lhr[lhr.length - 1]['categories'][category]['auditRefs'];
     diagnostics[category] = refs.map(ref => {
-      const fullAudit = lhr[lhr.length - 1]['audits'][ref.id];
+      const fullAudit = Object.assign({}, lhr[lhr.length - 1]['audits'][ref.id]);
       if (!fullAudit.score) return null
+      console.log(fullAudit.description)
       fullAudit.link = fullAudit.description.match(/https:\/\/web.dev.*\//);
       fullAudit.description = fullAudit.description.replace(/\[Learn.*/, '')
       return fullAudit
     }).filter(ref => ref).sort((a, z) => a.score - z.score);
   };
-  console.log(diagnostics)
+  // console.log(diagnostics)
  
   return (
 
