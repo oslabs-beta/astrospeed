@@ -13,7 +13,7 @@ let server;
 function readConfig() {
   //check if user-defined custom config exists, else use defaults
   const defaultCfg = {
-    endpoints: ['/index.html', '/about'],
+    endpoints: ['/index.html'],
     port: 3500,
     buildCommand: 'npm run build',
     outputDir: 'dist'
