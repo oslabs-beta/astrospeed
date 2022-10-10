@@ -20,7 +20,7 @@ class LineChart extends React.Component {
     for (let i = 0; i < 4; i++) {
       currentChartData.push(Object.assign({}, lineChartData[i], {data: lineChartData[i]['data'][this.props.currentEndpoint]}))
     }
-    console.log(lhr[this.props.currentEndpoint][0])
+    // console.log(lhr[this.props.currentEndpoint][0])
     const currentEndpoint = this.props.currentEndpoint;
     lineChartOptions.tooltip.x = {
       formatter: function(val) {

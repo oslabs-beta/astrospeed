@@ -22,7 +22,7 @@ for (let k = 0; k < endpoints.length; k++) {
     a11yScores[endpoints[k]].push(lhr[endpoints[k]][i].categories.accessibility.score * 100);
   }
 }
-console.log(perfScores)
+// console.log(perfScores)
 
 
 export const lineChartData = [
