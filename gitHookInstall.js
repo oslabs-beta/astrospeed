@@ -4,8 +4,6 @@ const fs = require("fs");
 const { resolve } = require("path");
 
 const hook = "post-commit";
-//Get files of hook template
-//const hookFileContents = fs.readFileSync(`./${hook}`).toString();
 
 function installHooks() {
   //Make sure there is a .git folder
@@ -21,9 +19,6 @@ function installHooks() {
       } else {
         fs.appendFileSync(hookFile, '\nnpx astrospeed-snap &\n');
         console.log('astroSpeed hook appended to existing post-commit hooks');
-        // console.warn(
-        //   "Post-commit git hook already exists.\nPlease add `npx astrospeed-snap &` to your existing post-commit hook to enable astroSpeed."
-        // );
       }
       return;
     }
@@ -42,18 +37,4 @@ function ensureDirExists(dir) {
   fs.existsSync(dir) || fs.mkdirSync(dir);
 }
 
-function addToGitignore() {
-  const gitignoreFilePath = resolve(process.env.INIT_CWD + "/.gitignore");
-  fs.readFile(gitignoreFilePath, (err, data) => {
-    if (err) throw err;
-    if (!/astroSpeed\//.test(data.toString())) {
-      fs.appendFile(gitignoreFilePath, "\nastroSpeed/", function (err) {
-        if (err) throw err;
-        console.log("Added to gitignore");
-      });
-    }
-  });
-}
-
-// addToGitignore();
 installHooks();
