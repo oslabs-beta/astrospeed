@@ -11,10 +11,15 @@ class LineChart extends React.Component {
       chartOptions: {},
     };
   }
+  
 
   componentDidMount() {
+    const currentChartData = [];
+    for (let i = 0; i < 4; i++) {
+      currentChartData.push(Object.assign({}, lineChartData[i], {data: lineChartData[i]['data'][this.props.currentEndpoint]}))
+    }
     this.setState({
-      chartData: lineChartData,
+      chartData: currentChartData, 
       chartOptions: lineChartOptions,
     });
   }
@@ -24,6 +29,7 @@ class LineChart extends React.Component {
       height: '50vh',
       minHeight: '400px',
     }
+    // console.log(this.state.chartData[this.props.currentEndpoint])
     return (
       <div style={divStyle}>
         <ReactApexChart

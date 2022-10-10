@@ -1,17 +1,29 @@
-// export const barChartData = [
-
-// import lhr from '../../lighthouse.json'
-// import git_commits from '../../git_commits.json'
 const lhr = window.results;
 
-const perfScores = [], seoScores = [], commitNum = [], bestPracScores = [], a11yScores = [];
-for (let i = 0; i < lhr.length; i++) {
-  commitNum.push(i + 1);
-  perfScores.push(lhr[i].categories.performance.score * 100);
-  seoScores.push(lhr[i].categories.seo.score * 100);
-  bestPracScores.push(lhr[i].categories['best-practices'].score * 100);
-  a11yScores.push(lhr[i].categories.accessibility.score * 100);
+const perfScores = {}, seoScores = {}, commitNum = {}, bestPracScores = {}, a11yScores = {};
+const endpoints = Object.keys(lhr);
+
+// {
+//   'index.html': [{'performance': 99}]
+// }
+//iterate through each endpoint
+for (let k = 0; k < endpoints.length; k++) {
+  //iterate through each run in that endpoint
+  for (let i = 0; i < lhr[endpoints[k]].length; i++) {
+    if (!(endpoints[k] in commitNum)) commitNum[endpoints[k]] = 0
+    commitNum[endpoints[k]]++;
+    if (!(endpoints[k] in perfScores)) perfScores[endpoints[k]] = []
+    perfScores[endpoints[k]].push(lhr[endpoints[k]][i].categories.performance.score * 100);
+    if (!(endpoints[k] in seoScores)) seoScores[endpoints[k]] = []
+    seoScores[endpoints[k]].push(lhr[endpoints[k]][i].categories.seo.score * 100);
+    if (!(endpoints[k] in bestPracScores)) bestPracScores[endpoints[k]] = []
+    bestPracScores[endpoints[k]].push(lhr[endpoints[k]][i].categories['best-practices'].score * 100);
+    if (!(endpoints[k] in a11yScores)) a11yScores[endpoints[k]] = []
+    a11yScores[endpoints[k]].push(lhr[endpoints[k]][i].categories.accessibility.score * 100);
+  }
 }
+console.log(perfScores)
+
 
 export const lineChartData = [
   {
@@ -31,7 +43,6 @@ export const lineChartData = [
     data: a11yScores,
   },
 ];
-
 export const lineChartOptions = {
   chart: {
     toolbar: {
@@ -43,7 +54,7 @@ export const lineChartOptions = {
     theme: "dark",
     intersect: false,
     x: {
-      formatter: function(val) {return `Commit #${val}<br />${lhr[Number(val) - 1].git.time}<br />${lhr[Number(val) - 1].git.msg}`}
+      // formatter: function(val) {return `Commit #${val}<br />${lhr[Number(val) - 1].git.time}<br />${lhr[Number(val) - 1].git.msg}`}
     },
     y: {
       formatter: function(val) {return `${val}%`}
@@ -104,3 +115,4 @@ export const lineChartOptions = {
   },
   colors: ["#246dec", "#f5b74f", "#367952", "#cc3c43"],
 };
+

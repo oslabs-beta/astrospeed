@@ -10,25 +10,28 @@ import Card from "./components/Card.jsx"
 //    currentMetric: string
 // }
 
-class App extends React.Component<{}, {currentMetric: string}> {
+class App extends React.Component<{}, {currentMetric: string, currentEndpoint: string}> {
   constructor(props: any) {
     super(props);
     this.state = {
-      currentMetric: 'performance'
+      currentMetric: 'performance',
+      currentEndpoint: Object.keys(lhr)[0]
     };
   }
   render() {
     // const [currentMetric, setcurrentMetric] = useState('Performance');
 
-    const reportTime = lhr[lhr.length - 1].git.time;
-    const currPerf = lhr[lhr.length-1].categories.performance.score * 100
-    const currSeo = lhr[lhr.length-1].categories.seo.score * 100;
-    const currBP = lhr[lhr.length-1].categories['best-practices'].score * 100;
-    const currAcc = lhr[lhr.length-1].categories.accessibility.score * 100;
+    const reportTime = lhr[this.state.currentEndpoint][lhr[this.state.currentEndpoint].length - 1].git.time;
+    const currPerf = lhr[this.state.currentEndpoint][lhr[this.state.currentEndpoint].length-1].categories.performance.score * 100
+    const currSeo = lhr[this.state.currentEndpoint][lhr[this.state.currentEndpoint].length-1].categories.seo.score * 100;
+    const currBP = lhr[this.state.currentEndpoint][lhr[this.state.currentEndpoint].length-1].categories['best-practices'].score * 100;
+    const currAcc = lhr[this.state.currentEndpoint][lhr[this.state.currentEndpoint].length-1].categories.accessibility.score * 100;
 
     const divStyle = {
       display:'flex'
     }
+
+    const availableEndpoints = Object.keys(lhr).map(endpoint => <li key={endpoint} className="endpoint">{endpoint}</li>)
 
     return (
       <>
@@ -48,15 +51,7 @@ class App extends React.Component<{}, {currentMetric: string}> {
         <li className="sidebar-list-item">
             <span className="material-symbols-outlined">expand_more</span>Endpoints
         </li>
-        <li className="endpoint">
-            /
-        </li>
-        <li className="endpoint">
-            /about
-        </li>
-        <li className="endpoint">
-            /blog
-        </li>
+        {availableEndpoints}
         <li className="sidebar-list-item">
             <span className="material-symbols-outlined">help</span> Documentation
         </li>
@@ -108,14 +103,14 @@ class App extends React.Component<{}, {currentMetric: string}> {
         <div className="charts-card">
             <p className="chart-title">Web Vitals</p>
             <div id="area-chart">
-            <LineChart />
+            <LineChart currentEndpoint={this.state.currentEndpoint} />
             </div>
         </div>
 
         <div className="recommendations">
             <p className="chart-title">Details</p>
             <div id="bar-chart">
-            <ListContainer currentMetric={this.state.currentMetric}/>
+            <ListContainer currentEndpoint={this.state.currentEndpoint} currentMetric={this.state.currentMetric}/>
             </div>
         </div>
 
