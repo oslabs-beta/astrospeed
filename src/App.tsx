@@ -31,7 +31,7 @@ class App extends React.Component<{}, {currentMetric: string, currentEndpoint: s
       display:'flex'
     }
 
-    const availableEndpoints = Object.keys(lhr).map(endpoint => <li key={endpoint} className="endpoint">{endpoint}</li>)
+    const availableEndpoints = Object.keys(lhr).map(endpoint => <li key={endpoint} className="endpoint" onClick={() => this.setState({currentEndpoint: endpoint})}>{endpoint}</li>)
 
     return (
       <>
