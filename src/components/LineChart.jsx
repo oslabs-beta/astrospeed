@@ -1,6 +1,8 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { lineChartData, lineChartOptions } from "./chartdata";
+const lhr = window.results;
+
 
 class LineChart extends React.Component {
   constructor(props) {
@@ -17,6 +19,13 @@ class LineChart extends React.Component {
     const currentChartData = [];
     for (let i = 0; i < 4; i++) {
       currentChartData.push(Object.assign({}, lineChartData[i], {data: lineChartData[i]['data'][this.props.currentEndpoint]}))
+    }
+    console.log(lhr[this.props.currentEndpoint][0])
+    const currentEndpoint = this.props.currentEndpoint;
+    lineChartOptions.tooltip.x = {
+      formatter: function(val) {
+        return `Commit #${val}<br />${lhr[currentEndpoint][Number(val) - 1].git.time}<br />${lhr[currentEndpoint][Number(val) - 1].git.msg}`
+      }
     }
     this.setState({
       chartData: currentChartData, 
