@@ -65,6 +65,7 @@ class App extends React.Component<{}, {currentMetric: string, currentEndpoint: s
 <main className="main-container">
     <div className="main-title">
         <p className="font-weight-bold">Overview</p>
+        {/* <span className='timestamp'>{reportTime}</span> */}
     </div>
 
     <div className="main-cards">

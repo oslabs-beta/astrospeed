@@ -24,7 +24,7 @@ const DiagnosticsItem = ({ data }) => {
 
       {open && (
         <div className={styles.bottomData}>
-          <div className={styles.description}>{data.description}{data.link && (<a href={data.link[0]}>Learn More</a>)}</div>
+          <div className={styles.description}>{data.description}{data.link && (<a target="_blank" href={data.link[0]}>Learn More</a>)}</div>
         </div>
       )}
     </div>
