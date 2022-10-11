@@ -1,36 +1,62 @@
 #!/usr/bin/env node
 
-//TO-DO
 const lighthouse = require('lighthouse');
-const chromeLauncher = require('chrome-launcher');
 const puppeteer = require('puppeteer');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const { exec, execSync } = require("child_process");
+const { execSync } = require("child_process");
 
-const DEV_MODE = false; //configurable to switch between running as a node_module in another project (false) or running as a standalone project (true)
+const { endpoints, port, buildCommand, outputDir } = readConfig();
+let server;
 
+function readConfig() {
+  //check if user-defined custom config exists, else use defaults
+  const defaultCfg = {
+    endpoints: ['/index.html'],
+    port: 3500,
+    buildCommand: 'npm run build',
+    outputDir: 'dist'
+  }
+  try {
+    const config = fs.readFileSync(path.resolve(path.join(__dirname, '../../astrospeed.config.json')));
+    return Object.assign({}, defaultCfg, JSON.parse(config));
+  } catch (err){
+    return defaultCfg
+  }
+}
+
+function readExistingData () {
+  //check if results.js already exists, if so return the contents, otherwise return empty array
+  try {
+    const pathToFile = './astrospeed/results.js'
+    const oldData = fs.readFileSync(pathToFile);
+    //remove the window.results assignment to just get the array
+    const oldDataParsed = oldData.slice(16)
+    return JSON.parse(oldDataParsed);
+  } catch (err){
+    return {};
+  }
+}
 
 console.log('Astrospeed report in progress...')
 
+buildApp();
+serveAppAndRunLHR();
+
 //build the user's astro app to the 'dist' folder
-function buildAstroApp() {
-  const buildAstroAppCmd = 'npm run build';
-  execSync(buildAstroAppCmd)
+function buildApp() {
+  execSync(buildCommand)
 }
 
-//declare server globally so we can call server.close() later when the lighthouse report completes.
-let server;
-
-async function serveAstroApp() {
+async function serveAppAndRunLHR() {
   //serve the astro app on port 3500
   const app = express();
-  app.use('*', express.static('dist'));
-  server = app.listen(3500, () => getReport());
+  app.use('*', express.static(outputDir));
+  server = app.listen(port, () => getReport(endpoints));
 }
 
-async function getLighthouseResultsPuppeteer(url) {
+async function getLighthouseResultsPuppeteer(endpoints) {
   const chrome = await puppeteer.launch({args: ['--remote-debugging-port=9224'],});
   const options = {
     logLevel: 'silent', 
@@ -38,9 +64,14 @@ async function getLighthouseResultsPuppeteer(url) {
     maxWaitForLoad: 10000, 
     port: 9224
   };
-  const runnerResult = await lighthouse(url, options);
+  const runnerResults = {};
+  for (let i = 0; i < endpoints.length; i++) {
+    const result = await lighthouse('http://localhost:3500' + endpoints[i], options)
+    runnerResults[endpoints[i]] = result.lhr;
+  }
+  // const runnerResult = await lighthouse(url, options);
   await chrome.close();
-  return runnerResult.lhr;
+  return runnerResults;
 }
 
 function getCommitDetails() {
@@ -55,23 +86,26 @@ function getCommitDetails() {
   return newCommitData;
 }
 
-async function getReport() {
+async function getReport(endpoints) {
   //use puppeteer to get lighthouse results object and store it in lhr
-  const lhr = await getLighthouseResultsPuppeteer(`http://localhost:3500/index.html`);
+  const lhr = await getLighthouseResultsPuppeteer(endpoints);
   //close express server after lighthouse returns results
   server.close();
-  //remove unused screenshots from lhr to save space 
-  lhr['audits']['screenshot-thumbnails']['details'] = null;
-  lhr['audits']['final-screenshot']['details']['data'] = null;
-  lhr['audits']['full-page-screenshot']['details'] = null;
-  //add git details to the lighthouse report under key 'git'
-  lhr['git'] = getCommitDetails();
-
   // read results.js
   const data = readExistingData();
-  // push latest report + git details into data array
-  data.push(lhr);
+  //remove unused screenshots from lhr to save space 
+  endpoints.forEach(endpoint => {
+    lhr[endpoint]['audits']['screenshot-thumbnails']['details'] = null;
+    lhr[endpoint]['audits']['final-screenshot']['details']['data'] = null;
+    lhr[endpoint]['audits']['full-page-screenshot']['details'] = null;
+    //add git details to the lighthouse report under key 'git'
+    lhr[endpoint]['git'] = getCommitDetails();
 
+    if (!(endpoint in data)) data[endpoint] = [lhr[endpoint]]
+    else {
+      data[endpoint].push(lhr[endpoint])
+    }
+  })
   //resultsOutput is a JS expression that assigns window.results to the data array. 
   const resultsOutput = 'window.results = ' + JSON.stringify(data);
   //outputDir is the astro project two levels up + folder 'astrospeed'. (cwd is inside node_modules/astrospeed)
@@ -92,20 +126,4 @@ async function getReport() {
 
   //write to user's terminal the path of the astrospeed report. 
   console.log('Astrospeed report available at', path.resolve(__dirname, '../../astrospeed/index.html'))
-}
-
-buildAstroApp();
-serveAstroApp();
-
-function readExistingData () {
-  //check if results.js already exists, if so return the contents, otherwise return empty array
-  try {
-    const pathToFile = './astrospeed/results.js'
-    const oldData = fs.readFileSync(pathToFile);
-    //remove the window.results assignment to just get the array
-    const oldDataParsed = oldData.slice(16)
-    return JSON.parse(oldDataParsed);
-  } catch (err){
-    return [];
-  }
 }

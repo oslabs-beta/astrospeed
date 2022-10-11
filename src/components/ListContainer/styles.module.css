@@ -15,10 +15,6 @@
     margin-left: 20px;
 }
 
-.inside{
-    
-}
-
 .form_container{
     background-color:rgb(128, 153, 237);
     width: 100%;
@@ -40,12 +36,13 @@
 .inputInsideContainer{
     outline: none;
     border: solid;
-    width: 75%;
+    /* width: 92%; */
     padding: 15px;
     border-radius: 10px;
     background-color: rgb(208, 199, 233);
     margin: 5px 0;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .inputInsideContainer:hover{

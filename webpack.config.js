@@ -2,12 +2,10 @@ const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const DEV_MODE = true;
-
 const config = {
   entry: "./src/index.tsx",
   output: {
-    path: path.resolve(__dirname, DEV_MODE ? './astrospeed' : '../../astrospeed'),
+    path: path.resolve(__dirname, './astrospeed'),
     filename: 'bundle.js'
   },
   module: {

@@ -9,73 +9,55 @@ class DialChart extends React.Component {
         this.state = {
             series: [props.data],
             options: {
-                //Removed Title because I like to use the Label better for single data series
-                // title : {
-                //     text: props.name,
-                //     align: 'center'
-                // }, 
-                // title: this.props.name,
                 chart: {
+                    height: 350,
                     type: 'radialBar',
-                    height: '100px',
-                    width: '100px'
-                    // offsetY: -20,
-                    // sparkline: {
-                    //     enabled: true
-                    // }
-                },
-                plotOptions: {
+                    offsetY: -10
+                  },
+                  plotOptions: {
                     radialBar: {
-                        startAngle: -90,
-                        endAngle: 90,
-                        track: {
-                            background: "#e7e7e7",
-                            // strokeWidth: '97%', this is not an option in radialBar
-                            // margin: 5, // margin is in pixels removed because only 1 track
-                            dropShadow: {
-                                enabled: true,
-                                top: 2,
-                                left: 0,
-                                // color: '#999', no color option here
-                                opacity: 1,
-                                blur: 2
-                            }
+                      startAngle: -135,
+                      endAngle: 135,
+                      dataLabels: {
+                        name: {
+                          fontSize: '6px',
+                          color: '#000000',
+                          offsetY: 120
                         },
-                        dataLabels: {
-                            name: {
-                                show: true
-                            },
-                            value: {
-                                offsetY: -50,
-                                fontSize: '22px',
-                                formatter: (val) => val
-                            }
+                        value: {
+                          offsetY: -10,
+                          fontSize: '15px',
+                          color: undefined,
+                          formatter: function (val) {
+                            return val + "%";
+                          }
                         }
+                      }
                     }
-                },
-                grid: {
-                    padding: {
-                        top: -10
-                    }
-                },
-                fill: {
+                  },
+                  fill: {
+                    colors: ['#3700A4', '#000000'],
                     type: 'gradient',
                     gradient: {
-                        shade: 'light',
-                        shadeIntensity: 0.4,
+                        shade: 'dark',
+                        shadeIntensity: 0.15,
                         inverseColors: false,
                         opacityFrom: 1,
                         opacityTo: 1,
-                        stops: [0, 50, 53, 91] // what is up with these stops
+                        stops: [0, 50, 65, 91]
                     },
+                  },
+                  stroke: {
+                    dashArray: 4
+                  },
+                  labels: [' '],
+                //   labels: [`${props.name}`],
                 },
-                labels: [props.name],
-            },
-
-
-        };
-    }
-
+              
+              
+              };
+            }
+    
     render() {
         const divStyle = {
             width: '50%',

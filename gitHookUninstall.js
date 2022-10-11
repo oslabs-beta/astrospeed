@@ -3,7 +3,7 @@
 const fs = require("fs");
 const { resolve } = require("path");
 
-const hookString = "npx astrospeed-snap &";
+const hookString = "npx astrospeed-snap";
   //Make sure there is a .git folder
 const gitRoot = resolve(process.env.INIT_CWD + "/.git");
 
