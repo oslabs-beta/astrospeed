@@ -21,7 +21,7 @@ const ListContainer = (props) => {
     const refs = lhr[props.currentEndpoint][lhr[props.currentEndpoint].length - 1]['categories'][category]['auditRefs'];
     diagnostics[category] = refs.map(ref => {
       const fullAudit = Object.assign({}, lhr[props.currentEndpoint][lhr[props.currentEndpoint].length - 1]['audits'][ref.id]);
-      if (!fullAudit.score) return null
+      if (fullAudit.score == null) return null
       // console.log(fullAudit.description)
       fullAudit.link = fullAudit.description.match(/https:\/\/web.dev.*\//);
       fullAudit.description = fullAudit.description.replace(/\[Learn.*/, '')
