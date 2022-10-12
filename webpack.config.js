@@ -2,12 +2,10 @@ const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const DEV_MODE = true;
-
 const config = {
   entry: "./src/index.tsx",
   output: {
-    path: path.resolve(__dirname, DEV_MODE ? './astrospeed' : '../../astrospeed'),
+    path: path.resolve(__dirname, './astrospeed'),
     filename: 'bundle.js'
   },
   module: {
@@ -36,7 +34,7 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       templateContent: ({ htmlWebpackPlugin }) =>
-        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Astrospeed Report</title><script src="results.js"></script></head><body><div id="app"></div></body></html>',
+        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>astroSpeed Report</title><script src="results.js"></script></head><body><div id="app"></div></body></html>',
       filename: "index.html",
       chunks: 'bundle'
     }),

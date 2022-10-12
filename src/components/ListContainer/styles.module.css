@@ -15,10 +15,6 @@
     margin-left: 20px;
 }
 
-.inside{
-    
-}
-
 .form_container{
     background-color:rgb(128, 153, 237);
     width: 100%;
@@ -40,16 +36,19 @@
 .inputInsideContainer{
     outline: none;
     border: solid;
-    width: 75%;
+    /* width: 92%; */
     padding: 15px;
     border-radius: 10px;
     background-color: rgb(208, 199, 233);
     margin: 5px 0;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .inputInsideContainer:hover{
-    background-color: rgb(189, 176, 223);
+    /* background-color: rgb(189, 176, 223); */
+    opacity: 50%;
+    /* background-color: #4f35a1; */
 }
 
 .addresses{
@@ -96,29 +95,36 @@ padding: 20px;
     font-weight: bold;
 }
 
+.diagnostics {
+    color: white;
+}
+
 .green {
-    background-color: rgb(0, 255, 127);
+    background-color: #367952;
 }
 
 .red {
-    background-color: red;
+    background-color: #cc3c43;
 }
 
 .dataTitle {
     font-weight: bold;
     font-size: 16px;
     font-family: system-ui;
+    color: white;
 }
 
 .description {
     font-size: 12px;
     font-family: system-ui;
+    color: white;
 }
 
 .mainItem {
     display: flex;
     justify-content: space-between;
     padding-right: 30px;
+    color: white;
 }
 
 .bottomData {
@@ -129,6 +135,7 @@ padding: 20px;
     cursor: pointer;
     display: flex;
     justify-content: end;
+    color: white;
 }
 
 .arrow::before{

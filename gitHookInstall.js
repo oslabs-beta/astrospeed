@@ -17,14 +17,14 @@ function installHooks() {
       if (fileContents.includes('npx astrospeed-snap')) {
         console.warn("Correct git hook already in place");
       } else {
-        fs.appendFileSync(hookFile, '\nnpx astrospeed-snap &\n');
+        fs.appendFileSync(hookFile, '\nnpx astrospeed-snap\n');
         console.log('astroSpeed hook appended to existing post-commit hooks');
       }
       return;
     }
     fs.writeFileSync(
       hookFile,
-      `#!/bin/sh\nnpx astrospeed-snap &\n`
+      `#!/bin/sh\nnpx astrospeed-snap\n`
     ); //create hook file
     fs.chmodSync(hookFile, "755"); //make hook file executable
     console.log("astroSpeed git integration was successful!");
