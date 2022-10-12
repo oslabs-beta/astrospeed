@@ -1,1 +1,0 @@
-const color = {yellow: '#E4E684'}
