@@ -5,18 +5,19 @@ const puppeteer = require('puppeteer');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const { execSync } = require("child_process");
+const { execSync, exec } = require("child_process");
 
-const { endpoints, port, buildCommand, outputDir } = readConfig();
+const { endpoints, port, buildCommand, outputDir, localServer } = readConfig();
 let server;
 
 function readConfig() {
   //check if user-defined custom config exists, else use defaults
   const defaultCfg = {
     endpoints: ['/index.html'],
-    port: 3500,
+    port: 3000,
     buildCommand: 'npm run build',
-    outputDir: 'dist'
+    outputDir: 'dist',
+    localServer: 'vite'
   }
   try {
     const config = fs.readFileSync(path.resolve(path.join(__dirname, '../../astrospeed.config.json')));
@@ -46,14 +47,23 @@ serveAppAndRunLHR();
 
 //build the user's astro app to the 'dist' folder
 function buildApp() {
-  execSync(buildCommand)
+  if (localServer == 'vite'){
+    exec('npx astro build; npx astro preview')
+  } else{
+    execSync(buildCommand)
+  }
+
 }
 
 async function serveAppAndRunLHR() {
+  if (localServer == 'vite') {
+    getReport(endpoints)
+  } else {
   //serve the astro app on port 3500
   const app = express();
   app.use('*', express.static(outputDir));
   server = app.listen(port, () => getReport(endpoints));
+  }
 }
 
 async function getLighthouseResultsPuppeteer(endpoints) {
@@ -65,8 +75,9 @@ async function getLighthouseResultsPuppeteer(endpoints) {
     port: 9224
   };
   const runnerResults = {};
+  
   for (let i = 0; i < endpoints.length; i++) {
-    const result = await lighthouse('http://localhost:3500' + endpoints[i], options)
+    const result = await lighthouse(`http://localhost:${port}` + endpoints[i], options)
     runnerResults[endpoints[i]] = result.lhr;
   }
   // const runnerResult = await lighthouse(url, options);
@@ -90,7 +101,7 @@ async function getReport(endpoints) {
   //use puppeteer to get lighthouse results object and store it in lhr
   const lhr = await getLighthouseResultsPuppeteer(endpoints);
   //close express server after lighthouse returns results
-  server.close();
+  if (localServer != 'vite') server.close();
   // read results.js
   const data = readExistingData();
   //remove unused screenshots from lhr to save space 

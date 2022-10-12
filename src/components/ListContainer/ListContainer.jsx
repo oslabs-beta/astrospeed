@@ -6,6 +6,7 @@ import DiagnosticsItem from "./DiagnosticsItem";
 import styles from "./styles.module.css";
 
 const ListContainer = (props) => {
+  console.log('rendering list container.', props)
   /*
   Performance breakdown
       Audit	Weight
@@ -28,7 +29,6 @@ const ListContainer = (props) => {
       return fullAudit
     }).filter(ref => ref).sort((a, z) => a.score - z.score);
   };
-  // console.log(diagnostics)
  
   return (
 
