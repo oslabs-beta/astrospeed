@@ -6,9 +6,11 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { execSync, exec } = require("child_process");
+const kill = require('tree-kill');
 
 const { endpoints, port, buildCommand, outputDir, localServer } = readConfig();
 let server;
+let viteProc;
 
 function readConfig() {
   //check if user-defined custom config exists, else use defaults
@@ -48,7 +50,8 @@ serveAppAndRunLHR();
 //build the user's astro app to the 'dist' folder
 function buildApp() {
   if (localServer == 'vite'){
-    exec('npx astro build; npx astro preview')
+    execSync('npx astro build')
+    viteProc = exec('npx astro preview');
   } else{
     execSync(buildCommand)
   }
@@ -98,10 +101,12 @@ function getCommitDetails() {
 }
 
 async function getReport(endpoints) {
+
   //use puppeteer to get lighthouse results object and store it in lhr
   const lhr = await getLighthouseResultsPuppeteer(endpoints);
   //close express server after lighthouse returns results
   if (localServer != 'vite') server.close();
+  else kill(viteProc.pid)
   // read results.js
   const data = readExistingData();
   //remove unused screenshots from lhr to save space 
