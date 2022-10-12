@@ -247,6 +247,7 @@ body {
   border: 1px solid #d2d2d3;
   border-radius: 5px;
   box-shadow: 0 6px 7px -4px rbga(0, 0, 0, 0.2);
+  max-height: 550px;
 }
 
 .recommendations {
@@ -259,7 +260,7 @@ body {
   border-radius: 5px;
   box-shadow: 0 6px 7px -4px rbga(0, 0, 0, 0.2);
   overflow-y: scroll;
-  max-height: 504px;
+  max-height: 550px;
 }
 
 .chart-title {
