@@ -11,10 +11,23 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/react": "^1.2.0",
     "@astrojs/tailwind": "^2.0.1",
     "astro": "^1.2.8",
+    "axios": "^1.1.2",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.1",
+    "joi": "^17.6.3",
+    "joi-password-complexity": "^5.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.6.5",
+    "nodemon": "^2.0.20",
     "postcss": "^8.4.17",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.2",
     "tailwindcss": "^3.1.8"
   }
 }
