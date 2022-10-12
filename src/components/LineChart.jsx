@@ -37,22 +37,25 @@ class LineChart extends React.Component {
 
   componentDidUpdate() {
     if (this.state.currentEndpoint != this.props.currentEndpoint) {
-      const currentChartData = [];
+    const currentEndpoint = this.props.currentEndpoint;
+    const currentChartData = [];
       for (let i = 0; i < 4; i++) {
         currentChartData.push(Object.assign({}, lineChartData[i], {data: lineChartData[i]['data'][this.props.currentEndpoint]}))
       }
-    const currentEndpoint = this.props.currentEndpoint;
+
     lineChartOptions.tooltip.x = {
       formatter: function(val) {
         return `Commit #${val}<br />${lhr[currentEndpoint][Number(val) - 1].git.time}<br />${lhr[currentEndpoint][Number(val) - 1].git.msg}`
       }
     }
+
     this.setState({
       chartData: currentChartData, 
       chartOptions: lineChartOptions,
       currentEndpoint: currentEndpoint
     });
-    }
+  }
+    // }
 
   }
 
