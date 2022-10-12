@@ -7,7 +7,7 @@ export default function Card (props) {
       <div className="card" onClick={diagnosticsState}>
       <div className="card-inner">
           <p className="text-primary">{name}</p>
-          <span className="material-symbols-outlined text-blue">{icon}</span>
+          <span className="material-symbols-outlined text-primary">{icon}</span>
       </div>
       {/* <DialChart name={name} data = {data}/> */}
       <span className="text-primary font-weight-bold">{ data }</span>

@@ -64,7 +64,7 @@ class App extends React.Component<{}, {currentMetric: string, currentEndpoint: s
 {/* <!-- main --> */}
 <main className="main-container">
     <div className="main-title">
-        <p className="font-weight-bold">Overview</p>
+        <p className="font-weight-bold">Current Commit Metrics</p>
         {/* <span className='timestamp'>{reportTime}</span> */}
     </div>
 
@@ -97,26 +97,27 @@ class App extends React.Component<{}, {currentMetric: string, currentEndpoint: s
     </div>
 
     <div className="main-title">
-        <p className="font-weight-bold">Details & Diagnostics</p>
+    <p className="font-weight-bold">History & Diagnostics</p>
+    {/* <p className="font-weight-bold"></p> */}
     </div>
 
     <div className="charts">
         <div className="charts-card">
-            <p className="chart-title">Web Vitals</p>
+            <p className="chart-title">Commit History</p>
             <div id="area-chart">
             <LineChart currentEndpoint={this.state.currentEndpoint} />
             </div>
         </div>
 
         <div className="recommendations">
-            <p className="chart-title">Details</p>
+            <p className="chart-title">Current Commit Details</p>
             <div id="bar-chart">
             <ListContainer currentEndpoint={this.state.currentEndpoint} currentMetric={this.state.currentMetric}/>
             </div>
         </div>
 
     </div>
-    Report generated at: {reportTime} <br />
+    Metrics via Google Lighthouse. Report generated at: {reportTime} <br />
 
 </main>
 
