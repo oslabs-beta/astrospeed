@@ -1,0 +1,11 @@
+node_modules
+dist
+.DS_Store
+.vscode
+package-lock.json
+src
+.babelrc
+tsconfig.json
+webpack.config.js
+astrospeed/results.js
+public/results.js
