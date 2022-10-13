@@ -1,6 +1,6 @@
 ---
 //Component Script Block
-const {name, github, linkedin} = Astro.props;
+const {name, github, linkedin, picture} = Astro.props;
 
 ---
 <!-- Component Template (HTML + JS Expressions) -->
@@ -80,7 +80,7 @@ const {name, github, linkedin} = Astro.props;
 </style>
 
 <div class="card">
-  <img src="https://i.ibb.co/LSzpxqF/a452a7baffcf724e679e353b4f53545e.jpg" alt="Logo">
+  <img src={picture} alt="Logo">
     <div class="card-info">
     <h6>{name}</h6>
     <span>Software Engineer</span>
