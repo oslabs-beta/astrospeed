@@ -1,6 +1,6 @@
 {
   "name": "astrospeed",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Astrospeed is a performance monitor for your AstroJS codebase",
   "main": "index.js",
   "scripts": {

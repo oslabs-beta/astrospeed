@@ -19,7 +19,7 @@ function readConfig() {
     port: 3000,
     buildCommand: 'npm run build',
     outputDir: 'dist',
-    localServer: 'vite'
+    localServer: 'express'
   }
   try {
     const config = fs.readFileSync(path.resolve(path.join(__dirname, '../../astrospeed.config.json')));

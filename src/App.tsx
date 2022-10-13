@@ -56,7 +56,7 @@ class App extends React.Component<{}, {currentMetric: string, currentEndpoint: s
             <span className="material-symbols-outlined">help</span> Documentation
         </li>
         <li className="sidebar-list-item">
-            <span className="material-symbols-outlined">rocket_launch</span> astroSpeed Login
+            <span className="material-symbols-outlined">rocket_launch</span> astroSpeed.io
         </li>
      </ul>
 </aside>
