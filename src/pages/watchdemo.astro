@@ -5,5 +5,5 @@ import Main from '../layouts/main.astro';
 ---
 <!-- Component Template (HTML + JS Expressions) -->
 <Main>
-  <iframe src="../demo" onload="this.width=screen.width;this.height=screen.height;"></iframe>
+  <iframe src="../demo" onload="this.width=window.innerWidth;this.height=window.innerHeight;"></iframe>
 </Main>
