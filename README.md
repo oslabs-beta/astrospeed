@@ -87,8 +87,8 @@
 
 astroSpeed is a data collection and reporting suite that uses the Google Lighthouse SDK to automatically collect application metrics such as Performance and SEO in the background during the development process, after each commit. 
 
-  <a href="https://i.ibb.co/pz6nzrz/Screen-Shot-2022-10-12-at-3-20-46-PM.png">
-    <img src="https://i.ibb.co/pz6nzrz/Screen-Shot-2022-10-12-at-3-20-46-PM.png" alt="sample" width="" height="100">
+  <a href="https://i.ibb.co/JRFktyR/Screen-Shot-2022-10-13-at-11-53-58-AM.png">
+    <img src="https://i.ibb.co/JRFktyR/Screen-Shot-2022-10-13-at-11-53-58-AM.png" alt="sample" width="" height="100">
   </a>
 
 ### Built With
