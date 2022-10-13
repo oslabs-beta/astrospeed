@@ -1,0 +1,43 @@
+---
+//Component Script Block
+import ContactCard from "./ContactCard.astro";
+
+---
+<!-- Component Template (HTML + JS Expressions) -->
+
+<style>
+
+  .allcards {
+    display: flex;
+    justify-content:space-between;
+  }
+
+</style>
+
+<div class="allcards p-16">
+  <ContactCard 
+    name="Audrey Park" 
+    picture=""
+    linkedin="https://www.linkedin.com/in/audreypark/" 
+    github="https://github.com/AudreyPark" 
+  />
+  <ContactCard 
+    name="Luke McInerney" 
+    picture=""
+    linkedin="https://www.linkedin.com/in/luke-mcinerney/" 
+    github="https://github.com/mciluke" 
+  />
+  <ContactCard 
+    name="Marco Gonzalez" 
+    picture=""
+    linkedin="https://www.linkedin.com/in/MarcoGonzalez2015/" 
+    github="https://github.com/mgon123" 
+  />
+  <ContactCard 
+   name="Rami Abdelghafar"
+    picture=""
+    linkedin="https://www.linkedin.com/in/ramiabdelghafar/" 
+    github="https://github.com/ramabdel12" 
+  />
+
+</div>
