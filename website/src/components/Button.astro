@@ -1,0 +1,11 @@
+---
+const {color} = Astro.props;
+let tailClass;
+if (color === 'stone') tailClass = `bg-stone-100 hover:bg-stone-300 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 w-48 h-10 py-2 px-2 m-1 font-semibold rounded-lg`;
+if (color === 'yellow') tailClass = `bg-yellow-200 hover:bg-yellow-400 transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 w-48 h-10 py-2 px-2 m-1 font-semibold rounded-lg`;
+---
+
+<button	class={tailClass}>
+	<slot />
+</button>
+

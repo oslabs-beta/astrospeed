@@ -1,0 +1,36 @@
+---
+import NavBar from '../components/NavBar.astro';
+---
+
+<style>
+  /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap'); */
+	@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Raleway:wght@900&display=swap');
+	body {
+		font-family: 'Poppins', sans-serif;
+		font-weight: 600;
+	}
+</style>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link 
+        rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" 
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer" 
+ />
+		<meta name="generator" content={Astro.generator} />
+		<title>astroSpeed</title>
+	</head>
+	<body class="bg-stone-100 text-stone-600 break-words">
+		<NavBar />
+		<slot />
+	</body>
+</html>
